@@ -1,6 +1,9 @@
 //class for Basic Alphabet Game
 import java.awt.*;
 import javax.swing.*;
+import javazoom.jl.decoder.JavaLayerException;
+import com.gtranslate.Audio;
+import com.gtranslate.Language;
 import java.awt.event.*;
 import java.io.*;
 import javafx.application.Application;
@@ -12,38 +15,117 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
-
 public class BasicGameAlphabet{
 	boolean flag=true; // keeps track to take only one response per question
 	JPanel frame;
 	static JFXPanel fxPanel;
+	int response=0; // tracks the response for the question
+	private int answer; // the original answer to the question
+	public void interval(){
+		Audio audio = Audio.getInstance();
+    	InputStream sound1 = null;
+    	try {
+			sound1 = audio.getAudio("Click once to Answer YES. Double Click to NO", Language.ENGLISH);
+			try {
+				audio.play(sound1);
+			} catch (JavaLayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			   Thread.sleep(4000);
+		   
+			} catch (InterruptedException ie) {
+			}
 		
-public void question(String str) {
+	 }
+/* this function compares the right answer to
+ * to the answer provided by the user
+ */
+public void selectAns(){
+	InputStream sound = null;
+	InputStream sound1 = null;
+	Audio audio = Audio.getInstance();
+	
+	System.out.println("Answer:  "+answer);
+	System.out.println("response:"+ response);
+		if(answer==response){
+		try {
+		      
+    		sound = audio.getAudio("Correct Answer", Language.ENGLISH);
+    		System.out.println("Correct Answer");
+    	} catch (IOException e1) {
+    		// TODO Auto-generated catch block
+    		e1.printStackTrace();
+    	}
+    	try {
+    		audio.play(sound);
+    	} catch (JavaLayerException e1) {
+    		// TODO Auto-generated catch block
+    		e1.printStackTrace();
+    	}
+		}
+		else {
+			try {
+				
+	    		sound1 = audio.getAudio("SORRY. Wrong answer", Language.ENGLISH);
+	    		System.out.println("Sorry. Wrong Answer");
+	    	} catch (IOException e1) {
+	    		// TODO Auto-generated catch block
+	    		e1.printStackTrace();
+	    	}
+	    	try {
+	    		audio.play(sound1);
+	    	} catch (JavaLayerException e1) {
+	    		// TODO Auto-generated catch block
+	    		e1.printStackTrace();
+	    	}
+			
+		}
+	
+}
+/*This function retrieves the question and displays it on the Panel
+ * for the user to visually see the question
+ */
+public void question(String str,int ans) {
 	
 	final File f = new File(str);
+	answer = ans;
     
-	fxPanel.addMouseListener( new MouseAdapter() {
-	      public void mouseClicked(MouseEvent e) {	        
-	        if(e.getClickCount()==1 && flag==true) {
-	        	System.out.println("Congrats!!!Right Answer");
-	        	flag=false;
-	        	return;
-	        }
-	        if (e.getClickCount() > 1 && flag==true){
-	        	System.out.println("Sorry.. Wrong answer");
-	        	flag=false;
-	        	return;
-	        }
-	        
-	      }
+	fxPanel.addMouseListener( new ClickListener() {
+		Audio audio = Audio.getInstance();
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
 	      });
+
 	Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
 	Media media = new Media(f.toURI().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(media);
 	mediaPlayer.setAutoPlay(true);
 	MediaView mediaView = new MediaView(mediaPlayer);
-	
 	((Group)scene.getRoot()).getChildren().add(mediaView);
 	fxPanel.setScene(scene);
 	//add some voice message to move to next question
@@ -51,12 +133,54 @@ public void question(String str) {
 		   Thread.sleep(9000);
 	   
 		} catch (InterruptedException ie) {
-		}
-	 
-		
+		}	
 	
 }
-	
+public static class ClickListener extends MouseAdapter implements ActionListener
+{
+    static final int clickInterval = (Integer)Toolkit.getDefaultToolkit().
+        getDesktopProperty("awt.multiClickInterval");
+
+    MouseEvent lastEvent;
+    Timer timer;
+
+    public ClickListener()
+    {
+        this(clickInterval);
+    }
+
+    public ClickListener(int delay)
+    {
+        timer = new Timer( delay, this);
+    }
+
+    public void mouseClicked (MouseEvent e)
+    {
+        if (e.getClickCount() > 2) return;
+
+        lastEvent = e;
+
+        if (timer.isRunning())
+        {
+            timer.stop();
+            doubleClick( lastEvent );
+        }
+        else
+        {
+            timer.restart();
+        }
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        timer.stop();
+        singleClick( lastEvent );
+    }
+
+    public void singleClick(MouseEvent e) {}
+    public void doubleClick(MouseEvent e) {}
+    
+}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -72,12 +196,30 @@ public void question(String str) {
 		BasicGameAlphabet q4 = new BasicGameAlphabet();
 		BasicGameAlphabet q5 = new BasicGameAlphabet();
 		String[] str = {"C:/Users/Rohith/Videos/B.mp4","C:/Users/Rohith/Videos/P.mp4","C:/Users/Rohith/Videos/X.mp4","C:/Users/Rohith/Videos/Y.mp4","C:/Users/Rohith/Videos/Z.mp4"};
-		q1.question("C:/Users/Rohith/Videos/B.mp4");
-		q2.question("C:/Users/Rohith/Videos/P.mp4");
-		q3.question("C:/Users/Rohith/Videos/X.mp4");
-		q4.question("C:/Users/Rohith/Videos/Y.mp4");
-		q5.question("C:/Users/Rohith/Videos/Z.mp4");
-
+		Audio audio = Audio.getInstance();
+		try {
+			InputStream sound = null;
+			try {
+				sound = audio.getAudio("This is Basic Alphabet game", Language.ENGLISH);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			audio.play(sound);
+		} catch (JavaLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		q1.question("C:/Users/Rohith/Videos/B.mp4",1);
+		q1.interval();
+		q2.question("C:/Users/Rohith/Videos/P.mp4",1);
+		q2.interval();
+		q3.question("C:/Users/Rohith/Videos/X.mp4",2);
+		q3.interval();
+		q4.question("C:/Users/Rohith/Videos/Y.mp4",1);
+		q4.interval();
+		q5.question("C:/Users/Rohith/Videos/Z.mp4",1);
+		q5.interval();
 	}
 
 
