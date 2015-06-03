@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -370,7 +371,6 @@ public void questionFour(){
 	
 	try {
 		   Thread.sleep(5000);
-		   ((Group)scene.getRoot()).getChildren().remove(mediaView);
 		   frame.remove(fxPanel4);
 	   
 		} catch (InterruptedException ie) {
@@ -481,6 +481,8 @@ class KeyTyped implements KeyListener{
 		frame.setSize(1300,750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		//this line fixes threading issues of the FX toolkit closing down when I call remove at the end of the quesstions
+		Platform.setImplicitExit(false);
 		//introduce the game
 		Audio audio = Audio.getInstance();
 		InputStream sound1 = null;
