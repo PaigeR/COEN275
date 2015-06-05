@@ -16,6 +16,10 @@ import java.io.InputStream;
 import javafx.embed.swing.JFXPanel;
 
 import javax.imageio.ImageIO;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.*;
 
 import javazoom.jl.decoder.JavaLayerException;
@@ -27,13 +31,15 @@ import com.gtranslate.Language;
 public class BasicAnimalGame {
 
 	boolean flag=true; // keeps track to take only one response per question
+	int score;
 	static JPanel panel1;
 	static JPanel panel2;
 	static int basicAnimalGameScore = 0;
 	static BufferedImage img;
 	
 		
-public void questionOne() {
+public int questionOne() {
+	score = 0;
 	flag=true;
 	Audio audio = Audio.getInstance();
 	InputStream sound = null;
@@ -91,7 +97,7 @@ public void questionOne() {
         		e1.printStackTrace();
         	}
         	}
-        	basicAnimalGameScore++;
+        	score++;
         	flag=false;
         	return;
         } 
@@ -105,9 +111,11 @@ public void questionOne() {
 		} catch (InterruptedException ie) {
 		}
 	
+	return score;
 }
 
-public void questionTwo() {
+public int questionTwo() {
+	score = 0; 
 	flag=true;
 	Audio audio = Audio.getInstance();
 	InputStream sound = null;
@@ -145,7 +153,7 @@ public void questionTwo() {
         		e1.printStackTrace();
         	}
         	}
-        	basicAnimalGameScore++;
+        	score++;
         	flag=false;
         	return;
         } 
@@ -179,10 +187,11 @@ public void questionTwo() {
 	   
 		} catch (InterruptedException ie) {
 		}
-	
+	return score;
 }
 
-public void questionThree() {
+public int questionThree() {
+	score=0;
 	flag=true;
 	Audio audio = Audio.getInstance();
 	InputStream sound = null;
@@ -241,7 +250,7 @@ public void questionThree() {
         		e1.printStackTrace();
         	}
         	}
-        	basicAnimalGameScore++;
+        	score++;
         	flag=false;
         	return;
         } 
@@ -255,9 +264,12 @@ public void questionThree() {
 		} catch (InterruptedException ie) {
 		}
 	
+	return score;
+	
 }
 
-public void questionFour() {
+public int questionFour() {
+	score=0;
 	flag=true;
 	Audio audio = Audio.getInstance();
 	InputStream sound = null;
@@ -316,7 +328,7 @@ public void questionFour() {
         		e1.printStackTrace();
         	}
         	}
-        	basicAnimalGameScore++;
+        	score++;
         	flag=false;
         	return;
         } 
@@ -330,9 +342,12 @@ public void questionFour() {
 		} catch (InterruptedException ie) {
 		}
 	
+	return score;
+	
 }
 
-public void questionFive() {
+public int questionFive() {
+	score=0;
 	flag=true;
 	Audio audio = Audio.getInstance();
 	InputStream sound = null;
@@ -391,7 +406,7 @@ public void questionFive() {
         		e1.printStackTrace();
         	}
         	}
-        	basicAnimalGameScore++;
+        	score++;
         	flag=false;
         	return;
         } 
@@ -404,6 +419,8 @@ public void questionFive() {
 	   
 		} catch (InterruptedException ie) {
 		}
+	
+	return score;
 	
 }
 
@@ -511,17 +528,29 @@ public class ContentPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		//need a better way to keep the score of the game because there are 5 instances of the class
+		//then there are 5 instances of the game score 
 		BasicAnimalGame q1 = new BasicAnimalGame();
 		BasicAnimalGame q2 = new BasicAnimalGame();
 		BasicAnimalGame q3 = new BasicAnimalGame();
 		BasicAnimalGame q4 = new BasicAnimalGame();
 		BasicAnimalGame q5 = new BasicAnimalGame();
 
-		q1.questionOne();
-		q2.questionTwo();
-		q3.questionThree();
-		q4.questionFour();
-		q5.questionFive();
+		int s1 = q1.questionOne();
+		int s2 = q2.questionTwo();
+		int s3 = q3.questionThree();
+		int s4 = q4.questionFour();
+		int s5 = q5.questionFive();
+		
+		basicAnimalGameScore = s1+s2+s3+s4+s5;
+		
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+	    EntityManager entitymanager = emfactory.createEntityManager();
+	    
+	    //need to figure out how to get the name of the user
+	    Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
+    	query1.setParameter("score", basicAnimalGameScore);
 
 	}
 
