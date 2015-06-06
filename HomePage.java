@@ -1,9 +1,21 @@
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
 /**
  *
  * @author proga_000
  */
 public class HomePage extends javax.swing.JFrame {
-
+	
+	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+    EntityManager entitymanager = emfactory.createEntityManager();
+    
+    String username = "";
+    
     /**
      * Creates new form HomePage
      */
@@ -24,17 +36,43 @@ public class HomePage extends javax.swing.JFrame {
         studentInfoButton = new javax.swing.JButton();
         startBasicButton = new javax.swing.JButton();
         startAdvButton = new javax.swing.JButton();
+        nameTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         studentInfoButton.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         studentInfoButton.setText("Student Info");
+        studentInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentInfoButtonActionPerformed(evt);
+            }
+        });
 
         startBasicButton.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         startBasicButton.setText("Start Basic Level");
+        startBasicButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startBasicButtonActionPerformed(evt);
+            }
+        });
 
         startAdvButton.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         startAdvButton.setText("Start Advanced Level");
+        startAdvButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startAdvButtonActionPerformed(evt);
+            }
+        });
+
+        nameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("Student's First and Last Name");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -44,18 +82,27 @@ public class HomePage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(startBasicButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(startAdvButton, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-                    .addComponent(studentInfoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(startAdvButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(studentInfoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(studentInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addComponent(studentInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(startBasicButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(startAdvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -67,18 +114,85 @@ public class HomePage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(512, Short.MAX_VALUE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
+
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        // TODO add your handling code here:
+    }                                             
+
+    private void studentInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        // TODO add your handling code here:
+    }                                                 
+
+    private void startBasicButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+    	username = nameTextField.getText();
+    	
+    	Query query1 = entitymanager.createQuery("SELECT s.name FROM student_info s WHERE s.name=:sname");
+    	query1.setParameter("sname", username);
+    	try{
+    		String result = (String) query1.getSingleResult();
+    	}
+    	catch(NoResultException e){
+    		//student is not already in the database
+    		EntityTransaction transaction = entitymanager.getTransaction();
+    		//update database to include student
+    		StudentInfo newStudent = new StudentInfo();
+    		newStudent.setStudentName(username);
+    		newStudent.setBasicLetterGameScore(0);
+    		newStudent.setBasicNumberGameScore(0);
+    		newStudent.setBasicAnimalGameScore(0);
+    		newStudent.setAdvLetterGameScore(0);
+    		newStudent.setAdvCountingGameScore(0);
+    		transaction.begin();
+    		entitymanager.persist(newStudent);
+    		transaction.commit();
+    	}
+    	//code to transition to starting the basic lesson
+    	BasicAnimalLesson lesson1 = new BasicAnimalLesson(username);
+    	
+    }                                                
+
+    private void startAdvButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+    	username = nameTextField.getText();
+    	
+    	Query query1 = entitymanager.createQuery("SELECT s.name FROM student_info s WHERE s.name=:sname");
+    	query1.setParameter("sname", username);
+    	try{
+    		String result = (String) query1.getSingleResult();
+    	}
+    	catch(NoResultException e){
+    		//student is not already in the database
+    		EntityTransaction transaction = entitymanager.getTransaction();
+    		//update database to include student
+    		StudentInfo newStudent = new StudentInfo();
+    		newStudent.setStudentName(username);
+    		newStudent.setBasicLetterGameScore(0);
+    		newStudent.setBasicNumberGameScore(0);
+    		newStudent.setBasicAnimalGameScore(0);
+    		newStudent.setAdvLetterGameScore(0);
+    		newStudent.setAdvCountingGameScore(0);
+    		transaction.begin();
+    		entitymanager.persist(newStudent);
+    		transaction.commit();
+    		
+    	}
+    	
+    	//code to transition to start the advanced lesson 
+    	
+    }                                              
 
     /**
      * @param args the command line arguments
@@ -116,7 +230,9 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField nameTextField;
     private javax.swing.JButton startAdvButton;
     private javax.swing.JButton startBasicButton;
     private javax.swing.JButton studentInfoButton;
