@@ -21,6 +21,57 @@ public class BasicGameAlphabet{
 	static JFXPanel fxPanel;
 	int response=0; // tracks the response for the question
 	private int answer; // the original answer to the question
+	public BasicGameAlphabet(){
+		init();
+		
+	}
+	public void init() {
+		JFrame frame = new JFrame("Basic Alphabet Game");
+		fxPanel = new JFXPanel();
+		frame.add(fxPanel);
+		frame.setSize(990,750);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		Audio audio = Audio.getInstance();
+		try {
+			InputStream sound = null;
+			try {
+				sound = audio.getAudio("This is Basic Alphabet game", Language.ENGLISH);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			audio.play(sound);
+		} catch (JavaLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		question1(1);
+		interval();
+		question2(1);
+		interval();
+		question3(2);
+		interval();
+		question4(1);
+		interval();
+		question5(1);
+		interval();
+		try {
+			InputStream sound1 = null;
+			try {
+				sound1 = audio.getAudio("You have successfully completed Basic Alphabet Game!!!", Language.ENGLISH);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			audio.play(sound1);
+		} catch (JavaLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
 	public void interval(){
 		Audio audio = Audio.getInstance();
     	InputStream sound1 = null;
@@ -91,8 +142,55 @@ public void selectAns(){
 /*This function retrieves the question and displays it on the Panel
  * for the user to visually see the question
  */
-public void question(String str,int ans) {
-	
+public void question5(int ans) {
+	flag=true;
+	String str= "C:/Users/Rohith/Videos/Z.mp4" ;
+	final File f = new File(str);
+	answer = ans;
+    
+	fxPanel.addMouseListener( new ClickListener() {
+		Audio audio = Audio.getInstance();
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	fxPanel.setScene(scene);
+	//add some voice message to move to next question
+	try {
+		   Thread.sleep(9000);
+	   
+		} catch (InterruptedException ie) {
+		}		
+}
+
+public void question4(int ans) {
+	flag=true;
+	String str= "C:/Users/Rohith/Videos/Y.mp4" ;
 	final File f = new File(str);
 	answer = ans;
     
@@ -136,6 +234,147 @@ public void question(String str,int ans) {
 		}	
 	
 }
+
+public void question3(int ans) {
+	flag=true;
+	String str= "C:/Users/Rohith/Videos/X.mp4" ;
+	final File f = new File(str);
+	answer = ans;
+    
+	fxPanel.addMouseListener( new ClickListener() {
+		Audio audio = Audio.getInstance();
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	fxPanel.setScene(scene);
+	//add some voice message to move to next question
+	try {
+		   Thread.sleep(9000);
+	   
+		} catch (InterruptedException ie) {
+		}	
+	
+}
+
+public void question2(int ans) {
+	flag=true;
+	String str= "C:/Users/Rohith/Videos/P.mp4" ;
+	final File f = new File(str);
+	answer = ans;
+    
+	fxPanel.addMouseListener( new ClickListener() {
+		Audio audio = Audio.getInstance();
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	fxPanel.setScene(scene);
+	//add some voice message to move to next question
+	try {
+		   Thread.sleep(9000);
+	   
+		} catch (InterruptedException ie) {
+		}	
+	
+}
+public void question1(int ans) {
+	flag=true;
+	String str= "C:/Users/Rohith/Videos/B.mp4" ;
+	final File f = new File(str);
+	answer = ans;
+    
+	fxPanel.addMouseListener( new ClickListener() {
+		Audio audio = Audio.getInstance();
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	fxPanel.setScene(scene);
+	//add some voice message to move to next question
+	try {
+		   Thread.sleep(9000);
+	   
+		} catch (InterruptedException ie) {
+		}	
+	
+}
+
 public static class ClickListener extends MouseAdapter implements ActionListener
 {
     static final int clickInterval = (Integer)Toolkit.getDefaultToolkit().
@@ -184,43 +423,8 @@ public static class ClickListener extends MouseAdapter implements ActionListener
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		JFrame frame = new JFrame("Basic Alphabet Game");
-		fxPanel = new JFXPanel();
-		frame.add(fxPanel);
-		frame.setSize(990,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		BasicGameAlphabet q1 = new BasicGameAlphabet();
-		BasicGameAlphabet q2 = new BasicGameAlphabet();
-		BasicGameAlphabet q3 = new BasicGameAlphabet();
-		BasicGameAlphabet q4 = new BasicGameAlphabet();
-		BasicGameAlphabet q5 = new BasicGameAlphabet();
-		String[] str = {"C:/Users/Rohith/Videos/B.mp4","C:/Users/Rohith/Videos/P.mp4","C:/Users/Rohith/Videos/X.mp4","C:/Users/Rohith/Videos/Y.mp4","C:/Users/Rohith/Videos/Z.mp4"};
-		Audio audio = Audio.getInstance();
-		try {
-			InputStream sound = null;
-			try {
-				sound = audio.getAudio("This is Basic Alphabet game", Language.ENGLISH);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		BasicGameAlphabet q = new BasicGameAlphabet();
 			}
-			audio.play(sound);
-		} catch (JavaLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		q1.question("C:/Users/Rohith/Videos/B.mp4",1);
-		q1.interval();
-		q2.question("C:/Users/Rohith/Videos/P.mp4",1);
-		q2.interval();
-		q3.question("C:/Users/Rohith/Videos/X.mp4",2);
-		q3.interval();
-		q4.question("C:/Users/Rohith/Videos/Y.mp4",1);
-		q4.interval();
-		q5.question("C:/Users/Rohith/Videos/Z.mp4",1);
-		q5.interval();
-	}
 
 
 
