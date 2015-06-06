@@ -1,13 +1,10 @@
-//Class to play the advanced counting lesson video
-//Video copyright goes to Bounce Patrol
+//class for Number lesson
+//video copyright goes to jorgeemborn and kidsconceptcorp.com
 
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.awt.event.*;
 import java.io.*;
-
 import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
@@ -17,32 +14,20 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
-public class AdvCountingLesson extends JFXPanel {
-	
-	void AdvCountingLesson(){
-		init();
-	}
-	
-	public void init(){
-		/*SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                start();
-            }
-        });*/
-		start();
-		
-	}
 
-	public void start() {
-		/*JFrame frame = new JFrame("Advanced Counting Lesson");
-		//final JFXPanel fxPanel = new JFXPanel();
+	public class BasicNumberLesson extends JPanel{
+			
+	public static void start() {
+		JFrame frame = new JFrame("Basic Number Lesson");
+		final JFXPanel fxPanel = new JFXPanel();
 		frame.add(fxPanel);
-		frame.setSize(1300,750);
+		frame.setSize(990,750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		*/
-		final File f = new File("C:/Users/proga_000/Videos/CountingToTen.mp4");
+		
+		final File f = new File("C:/Users/proga_000/Videos/FiveLittleMonkeys.mp4");
+		
+	//System.out.println(f.getAbsolutePath());
 		
 		Group root = new Group();
 		Scene scene = new Scene(root, 540, 210);
@@ -53,18 +38,24 @@ public class AdvCountingLesson extends JFXPanel {
 		
 		((Group)scene.getRoot()).getChildren().add(mediaView);
 		
-		this.setScene(scene);
-		
+		fxPanel.setScene(scene);
+
 	}
 		
-
 		
 		public static void main(String[] args) {
 			// TODO Auto-generated method stub
+			SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {
+	                start();
+	            }
+	        });
 			
 			
 		}
 
-	
-	
-}
+
+
+	}
+

@@ -1,19 +1,19 @@
-
+/*
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
+*/
 /**
  *
  * @author proga_000
  */
 public class HomePage extends javax.swing.JPanel {
     
-    EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
-    EntityManager entitymanager = emfactory.createEntityManager();
+    //EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+    //EntityManager entitymanager = emfactory.createEntityManager();
     
     String username = "";
 
@@ -109,7 +109,7 @@ public class HomePage extends javax.swing.JPanel {
         // TODO add your handling code here:
         username = nameTextField.getText();
     	
-    	Query query1 = entitymanager.createQuery("SELECT s.name FROM student_info s WHERE s.name=:sname");
+    	/*Query query1 = entitymanager.createQuery("SELECT s.name FROM student_info s WHERE s.name=:sname");
     	query1.setParameter("sname", username);
     	try{
     		String result = (String) query1.getSingleResult();
@@ -128,14 +128,14 @@ public class HomePage extends javax.swing.JPanel {
     		transaction.begin();
     		entitymanager.persist(newStudent);
     		transaction.commit();
-    	}
+    	}*/
     	//code to transition to starting the basic lesson
     }                                                
 
     private void startAdvButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
         username = nameTextField.getText();
-    	
+    	/*
     	Query query1 = entitymanager.createQuery("SELECT s.name FROM student_info s WHERE s.name=:sname");
     	query1.setParameter("sname", username);
     	try{
@@ -157,9 +157,13 @@ public class HomePage extends javax.swing.JPanel {
     		transaction.commit();
     		
     	}
-    	
+    	*/
     	//code to transition to start the advanced lesson 
-    }                                              
+    }                  
+    
+    public static void main(String[] args){
+    	HomePage hp = new HomePage();
+    }
 
 
     // Variables declaration - do not modify                     

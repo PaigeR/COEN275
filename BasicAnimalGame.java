@@ -28,7 +28,7 @@ import com.gtranslate.Audio;
 import com.gtranslate.Language;
 
 
-public class BasicAnimalGame {
+public class BasicAnimalGame extends JPanel{
 
 	boolean flag=true; // keeps track to take only one response per question
 	int score;
@@ -36,6 +36,76 @@ public class BasicAnimalGame {
 	static JPanel panel2;
 	static int basicAnimalGameScore = 0;
 	static BufferedImage img;
+	static String username;
+	
+	public BasicAnimalGame(String name){
+		username = name;
+		init();
+	}
+	
+	public BasicAnimalGame(){
+		//do nothing
+	}
+	
+	public void init(){
+		JFrame frame = new JFrame("Basic Animal Game");
+		//create the background panel that is the picture
+		BasicAnimalGame bg = new BasicAnimalGame();
+		JPanel panel2 = bg.new ContentPanel();
+		panel2.setOpaque(true);
+		panel2.setLayout(new BorderLayout());
+		frame.setContentPane(panel2); 
+		panel1 = new JPanel();
+		panel1.setOpaque(false);
+		//add panel1 to the background panel
+		panel2.add(panel1, BorderLayout.CENTER);
+		frame.setSize(990,750);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		//introduce the game
+		Audio audio = Audio.getInstance();
+		InputStream sound1 = null;
+		InputStream sound2 = null;
+		try {
+			sound1 = audio.getAudio("Time to play the Animal Game!", Language.ENGLISH);
+			sound2 = audio.getAudio("After the questions, press once for YES and twice for NO", Language.ENGLISH);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			audio.play(sound1);
+			audio.play(sound2);
+		} catch (JavaLayerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//need a better way to keep the score of the game because there are 5 instances of the class
+		//then there are 5 instances of the game score 
+		BasicAnimalGame q1 = new BasicAnimalGame();
+		BasicAnimalGame q2 = new BasicAnimalGame();
+		BasicAnimalGame q3 = new BasicAnimalGame();
+		BasicAnimalGame q4 = new BasicAnimalGame();
+		BasicAnimalGame q5 = new BasicAnimalGame();
+
+		int s1 = q1.questionOne();
+		int s2 = q2.questionTwo();
+		int s3 = q3.questionThree();
+		int s4 = q4.questionFour();
+		int s5 = q5.questionFive();
+		
+		basicAnimalGameScore = s1+s2+s3+s4+s5;
+		
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+	    EntityManager entitymanager = emfactory.createEntityManager();
+	    
+	    //need to figure out how to get the name of the user
+	    Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
+    	query1.setParameter("score", basicAnimalGameScore);
+    	query1.setParameter("name", username);
+
+	}
 	
 		
 public int questionOne() {
@@ -496,62 +566,6 @@ public class ContentPanel extends JPanel {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		JFrame frame = new JFrame("Basic Animal Game");
-		//create the background panel that is the picture
-		BasicAnimalGame bg = new BasicAnimalGame();
-		JPanel panel2 = bg.new ContentPanel();
-		panel2.setOpaque(true);
-		panel2.setLayout(new BorderLayout());
-		frame.setContentPane(panel2); 
-		panel1 = new JPanel();
-		panel1.setOpaque(false);
-		//add panel1 to the background panel
-		panel2.add(panel1, BorderLayout.CENTER);
-		frame.setSize(990,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		//introduce the game
-		Audio audio = Audio.getInstance();
-		InputStream sound1 = null;
-		InputStream sound2 = null;
-		try {
-			sound1 = audio.getAudio("Time to play the Animal Game!", Language.ENGLISH);
-			sound2 = audio.getAudio("After the questions, press once for YES and twice for NO", Language.ENGLISH);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			audio.play(sound1);
-			audio.play(sound2);
-		} catch (JavaLayerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		//need a better way to keep the score of the game because there are 5 instances of the class
-		//then there are 5 instances of the game score 
-		BasicAnimalGame q1 = new BasicAnimalGame();
-		BasicAnimalGame q2 = new BasicAnimalGame();
-		BasicAnimalGame q3 = new BasicAnimalGame();
-		BasicAnimalGame q4 = new BasicAnimalGame();
-		BasicAnimalGame q5 = new BasicAnimalGame();
-
-		int s1 = q1.questionOne();
-		int s2 = q2.questionTwo();
-		int s3 = q3.questionThree();
-		int s4 = q4.questionFour();
-		int s5 = q5.questionFive();
-		
-		basicAnimalGameScore = s1+s2+s3+s4+s5;
-		
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
-	    EntityManager entitymanager = emfactory.createEntityManager();
-	    
-	    //need to figure out how to get the name of the user
-	    Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
-    	query1.setParameter("score", basicAnimalGameScore);
-
+		BasicAnimalGame game1 = new BasicAnimalGame("Paige Rogalski");
 	}
-
 }

@@ -1,10 +1,12 @@
 //Class to play the basic animal lesson video 
+//Video copyright goes to Freddies Ville
 import java.awt.*;
 
 import javax.swing.*;
 
 import java.awt.event.*;
 import java.io.*;
+
 import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
@@ -15,15 +17,30 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 
-public class BasicAnimalLesson extends JPanel{
-		
-public static void start() {
-	JFrame frame = new JFrame("Basic Animal Lesson");
+public class BasicAnimalLesson extends JFXPanel{
+	
+	void BasicAnimalLesson(){
+		//init();
+		start();
+	}
+	
+	public void init(){
+		SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                start();
+            }
+        });
+	}
+	
+public void start() {
+	/*JFrame frame = new JFrame("Basic Animal Lesson");
 	final JFXPanel fxPanel = new JFXPanel();
 	frame.add(fxPanel);
 	frame.setSize(990,750);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
+	*/
 	
 	final File f = new File("C:/Users/proga_000/Videos/FarmAnimalsSong.mp4");
 	
@@ -36,20 +53,13 @@ public static void start() {
 	
 	((Group)scene.getRoot()).getChildren().add(mediaView);
 	
-	fxPanel.setScene(scene);
+	this.setScene(scene);
 }
 	
 
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                start();
-            }
-        });
-		
 		
 	}
 

@@ -15,6 +15,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.*;
 
 import javazoom.jl.decoder.JavaLayerException;
@@ -25,11 +29,76 @@ import com.gtranslate.Language;
 public class AdvCountingGame extends JFrame{
 
 	public static JFrame frame = new JFrame("Advanced Counting Game");
+	int score;
 	boolean flag=true; //to keep track to only take one response per question 
 	static int advCountingGameScore = 0;
+	static String username;
 	
-public void questionOne(){
+	public AdvCountingGame(String name){
+		username = name;
+		init();
+	}
+	
+	public AdvCountingGame(){
+		//do nothing
+	}
+	
+	public void init(){
+
+		frame.setSize(1300,750);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		//this line fixes threading issues of the FX toolkit closing down when I call remove at the end of the quesstions
+		Platform.setImplicitExit(false);
+		//introduce the game
+		Audio audio = Audio.getInstance();
+		InputStream sound1 = null;
+		InputStream sound2 = null;
+		/*try {
+			sound1 = audio.getAudio("Time to play the Coutning Game Game!", Language.ENGLISH);
+			sound2 = audio.getAudio("After the questions, press the number of how many sounds you heard", Language.ENGLISH);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			audio.play(sound1);
+			audio.play(sound2);
+		} catch (JavaLayerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+		
+		//need a better way to keep the score of the game because there are 5 instances of the class
+		//then there are 5 instances of the game score
+		AdvCountingGame g1 = new AdvCountingGame();
+		AdvCountingGame g2 = new AdvCountingGame();
+		AdvCountingGame g3 = new AdvCountingGame();
+		AdvCountingGame g4 = new AdvCountingGame();
+		AdvCountingGame g5 = new AdvCountingGame();
+		
+		int s1 = g1.questionOne();
+		int s2 = g2.questionTwo();
+		int s3 = g3.questionThree();
+		int s4 = g4.questionFour();
+		int s5 = g5.questionFive();
+		
+		advCountingGameScore = s1+s2+s3+s4+s5;
+		
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+	    EntityManager entitymanager = emfactory.createEntityManager();
+	    
+	    //need to figure out how to get the name of the user
+	    Query query1 = entitymanager.createQuery("Update student_info s SET s.advCountingGameScore=:score WHERE s.name=:sname");
+    	query1.setParameter("score", advCountingGameScore);
+    	query1.setParameter("name", username);
+ 
+	}
+	
+	
+public int questionOne(){
 		flag=true;
+		score = 0;
 		final JFXPanel fxPanel = new JFXPanel();
 		frame.add(fxPanel);
 		
@@ -85,7 +154,7 @@ public void questionOne(){
 							e1.printStackTrace();
 						}
 		        	
-						advCountingGameScore++;
+						score++;
 					}
 					else {
 						try {
@@ -114,9 +183,11 @@ public void questionOne(){
 		} catch (InterruptedException ie) {
 		}
 	
+		return score;
 }
 	
-public void questionTwo(){
+public int questionTwo(){
+	score=0;
 	final JFXPanel fxPanel2 = new JFXPanel();
 	frame.add(fxPanel2);
 	
@@ -172,7 +243,7 @@ public void questionTwo(){
 						e1.printStackTrace();
 					}
 	        	
-					advCountingGameScore++;
+					score++;
 				}
 				else {
 					try {
@@ -201,10 +272,12 @@ public void questionTwo(){
 	   
 	} catch (InterruptedException ie) {
 	}
-	
+
+	return score;
 }
 
-public void questionThree(){
+public int questionThree(){
+	score = 0;
 	final JFXPanel fxPanel3 = new JFXPanel();
 	frame.add(fxPanel3);
 	
@@ -259,7 +332,7 @@ public void questionThree(){
 	        		e1.printStackTrace();
 	        	}
 	        	
-	        	advCountingGameScore++;
+	        	score++;
 	        	
 			}
 			else {
@@ -288,9 +361,11 @@ public void questionThree(){
 	} catch (InterruptedException ie) {
 	}
 	
+	return score;
 }
 
-public void questionFour(){
+public int questionFour(){
+	score=0;
 	final JFXPanel fxPanel4 = new JFXPanel();
 	frame.add(fxPanel4);
 	
@@ -346,7 +421,7 @@ public void questionFour(){
 	        		e1.printStackTrace();
 	        	}
 	        	
-	        	advCountingGameScore++;
+	        	score++;
 	        	
 			}
 			else {
@@ -376,9 +451,12 @@ public void questionFour(){
 		} catch (InterruptedException ie) {
 	}
 	
+	return score;
+	
 }
 
-public void questionFive(){
+public int questionFive(){
+	score = 0;
 	final JFXPanel fxPanel5 = new JFXPanel();
 	frame.add(fxPanel5);
 	
@@ -433,7 +511,7 @@ public void questionFive(){
 	        		e1.printStackTrace();
 	        	}
 	        	
-	        	advCountingGameScore++;
+	        	score++;
 	        	
 			}
 			else {
@@ -464,6 +542,7 @@ public void questionFive(){
 		} catch (InterruptedException ie) {
 	}
 	
+	return score;
 }
 
 
@@ -477,43 +556,6 @@ class KeyTyped implements KeyListener{
 
 
     public static void main(String[] args) {
-    	
-		frame.setSize(1300,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		//this line fixes threading issues of the FX toolkit closing down when I call remove at the end of the quesstions
-		Platform.setImplicitExit(false);
-		//introduce the game
-		Audio audio = Audio.getInstance();
-		InputStream sound1 = null;
-		InputStream sound2 = null;
-		/*try {
-			sound1 = audio.getAudio("Time to play the Coutning Game Game!", Language.ENGLISH);
-			sound2 = audio.getAudio("After the questions, press the number of how many sounds you heard", Language.ENGLISH);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			audio.play(sound1);
-			audio.play(sound2);
-		} catch (JavaLayerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
-		//need a better way to keep the score of the game because there are 5 instances of the class
-		//then there are 5 instances of the game score
-		AdvCountingGame g1 = new AdvCountingGame();
-		AdvCountingGame g2 = new AdvCountingGame();
-		AdvCountingGame g3 = new AdvCountingGame();
-		AdvCountingGame g4 = new AdvCountingGame();
-		AdvCountingGame g5 = new AdvCountingGame();
-		g1.questionOne();
-		g2.questionTwo();
-		g3.questionThree();
-		g4.questionFour();
-		g5.questionFive();
     }
 }
 
