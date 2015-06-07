@@ -1,11 +1,16 @@
 //class for Basic Alphabet Game
 import java.awt.*;
+
 import javax.swing.*;
+
 import javazoom.jl.decoder.JavaLayerException;
+
 import com.gtranslate.Audio;
 import com.gtranslate.Language;
+
 import java.awt.event.*;
 import java.io.*;
+
 import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
@@ -15,18 +20,22 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
-public class BasicGameAlphabet{
+public class BasicGameAlphabet extends JPanel{
+	JPanel cards;
+	CardLayout cl;
+	JFrame frame;
 	boolean flag=true; // keeps track to take only one response per question
-	JPanel frame;
 	static JFXPanel fxPanel;
 	int response=0; // tracks the response for the question
 	private int answer; // the original answer to the question
-	public BasicGameAlphabet(){
+	public BasicGameAlphabet(JFrame win,JPanel car,CardLayout clayout){
+		cards=car;
+		cl=clayout;
+		frame= win;
 		init();
 		
 	}
 	public void init() {
-		JFrame frame = new JFrame("Basic Alphabet Game");
 		fxPanel = new JFXPanel();
 		frame.add(fxPanel);
 		frame.setSize(990,750);
@@ -421,11 +430,6 @@ public static class ClickListener extends MouseAdapter implements ActionListener
     
 }
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		BasicGameAlphabet q = new BasicGameAlphabet();
-			}
-
 
 
 }

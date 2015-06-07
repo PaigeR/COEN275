@@ -13,17 +13,26 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 
-public class BasicLessonAlphabet extends JPanel{
-		
-public static void start() {
-	JFrame frame = new JFrame("Basic Alphabet Lesson");
-	final JFXPanel fxPanel = new JFXPanel();
-	frame.add(fxPanel);
-	frame.setSize(990,750);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setVisible(true);
+public class BasicLessonAlphabet extends JFXPanel{
+		JPanel cards;
+		CardLayout cl;
+		JFrame window;
+public BasicLessonAlphabet(JFrame win,JPanel car,CardLayout clayout) {
+	cards=car;
+	cl=clayout;
+	window= win;
+	play();
+}
+
+public void play(){
 	
-	final File f = new File("C:/Users/Rohith/Videos/AForAppleSong.mp4");
+	window.add(this);
+	window.setSize(990,750);
+	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	window.setVisible(true);
+	
+	
+final File f = new File("C:/Users/Rohith/Videos/AForAppleSong.mp4");
 	
 	Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
@@ -34,23 +43,15 @@ public static void start() {
 	
 	((Group)scene.getRoot()).getChildren().add(mediaView);
 	
-	fxPanel.setScene(scene);
+	this.setScene(scene);
+	
+	cards.add(new BasicGameAlphabet(window,cards,cl), "Basic Game Alphabet");
+    cl.show(cards, "Basic Game Alphabet");
 
 }
 	
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                start();
-            }
-        });
-		
-		
-	}
-
+	
 
 
 }
