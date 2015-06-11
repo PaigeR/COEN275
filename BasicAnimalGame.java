@@ -16,11 +16,11 @@ import java.io.InputStream;
 import javafx.embed.swing.JFXPanel;
 
 import javax.imageio.ImageIO;
-import javax.persistence.EntityManager;
+/*import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.swing.*;
+*/import javax.swing.*;
 
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -495,21 +495,7 @@ public class ContentPanel extends JPanel {
 
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		JFrame frame = new JFrame("Basic Animal Game");
-		//create the background panel that is the picture
-		BasicAnimalGame bg = new BasicAnimalGame();
-		JPanel panel2 = bg.new ContentPanel();
-		panel2.setOpaque(true);
-		panel2.setLayout(new BorderLayout());
-		frame.setContentPane(panel2); 
-		panel1 = new JPanel();
-		panel1.setOpaque(false);
-		//add panel1 to the background panel
-		panel2.add(panel1, BorderLayout.CENTER);
-		frame.setSize(990,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+	
 		//introduce the game
 		Audio audio = Audio.getInstance();
 		InputStream sound1 = null;

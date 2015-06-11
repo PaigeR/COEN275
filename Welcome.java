@@ -28,6 +28,9 @@ public class Welcome  extends JPanel{
 	public static void showBasicGameAnimal(){
 		cl.show(cards, "Basic Game Animal");
 	}
+	public static void showBasicLessonCounting(){
+		cl.show(cards, "Basic Lesson counting");
+	}
 	public void init(){
 	
 	JFrame window = new JFrame("This is welcome");
@@ -37,6 +40,7 @@ public class Welcome  extends JPanel{
     cards.add(new BasicLessonAlphabet(), "Basic Lesson Alphabet");
 	cards.add(new BasicGameAlphabet(), "Basic Game Alphabet");
 	cards.add(new BasicAnimalLesson(),"Basic Lesson Animal");
+	cards.add(new BasicLessonNumber(), "Basic Lesson counting");
 
 	//cards.add(new BasicLessonAlphabet(), BLALPHABET);
 	//cards.add(new BasicGameAlphabet(), BGALPHABET);

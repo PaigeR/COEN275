@@ -21,12 +21,12 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 
-public class BasicAnimalLesson extends JFXPanel {
+public class BasicLessonNumber extends JFXPanel {
 /*		JPanel cards;
 		CardLayout cl;
 		JFrame window;*/
 	static JFXPanel panel;
-public BasicAnimalLesson() {
+public BasicLessonNumber() {
 	panel = this;
 
 }
@@ -36,7 +36,7 @@ public static JFXPanel getPanel(){
 public static void play(){
 	
 	
-final File f = new File("C:/Users/Rohith/Videos/X.mp4");
+final File f = new File("C:/Users/Rohith/Videos/P.mp4");
 
 	Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
@@ -57,8 +57,6 @@ final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 	            Platform.runLater(new Runnable() {
 	                @Override
 	                public void run() {
-	                	Welcome.showBasicLessonCounting();
-	                	BasicLessonNumber.play();
 	                	
 	                }
 	            });
