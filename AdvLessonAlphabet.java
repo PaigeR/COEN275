@@ -85,9 +85,9 @@ class AdvLessonAlphabet extends JPanel {
 	            Platform.runLater(new Runnable() {
 	                @Override
 	                public void run() {
-	                	//code to transition to Adv counting lesson
-	                	Welcome.showAdvLessonCounting();
-	                	AdvCountingLesson.start();
+	                	
+	                	Welcome.showAdvancedGameAlphabet();
+	                	AdvGameAlphabet.init();
 	                	}
 	            });
 

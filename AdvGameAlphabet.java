@@ -2,25 +2,34 @@ import java.awt.Dimension;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+
 import javax.swing.*;
+
 import javazoom.jl.decoder.JavaLayerException;
+
 import com.gtranslate.Audio;
 import com.gtranslate.Language;
 
-public class AdvGameAlphabet extends JPanel {
-		private char input;//stores the input entered by the user
-		private char answer; //Stores the right answer
+public class AdvGameAlphabet extends JFXPanel {
+		private static char input;//stores the input entered by the user
+		private static char answer; //Stores the right answer
 		static JFXPanel panel;
-		static JFrame frame;
 		
-		public void interval(){
+		public AdvGameAlphabet(){
+			panel= this;
+		}
+		public static void interval(){
 			Audio audio = Audio.getInstance();
 	    	InputStream sound1 = null;
 	    	try {
-				sound1 = audio.getAudio("To answer. Press the correct alphabet on the keyboard.", Language.ENGLISH);
+				sound1 = audio.getAudio("This is Advanced Alphabet Game. To answer. Press the correct alphabet on the keyboard. Press A on the keyboard", Language.ENGLISH);
 				try {
 					audio.play(sound1);
 				} catch (JavaLayerException e) {
@@ -31,14 +40,14 @@ public class AdvGameAlphabet extends JPanel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			try {
-				   Thread.sleep(4000);
-			   
-				} catch (InterruptedException ie) {
-				}
-			
+	    	
 		 }
- public void question(char ans){
+public static void init(){
+	interval();
+	question('a');
+			
+		}
+ public static void question(char ans){
 	 answer=ans;
 	 Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
@@ -94,30 +103,26 @@ public class AdvGameAlphabet extends JPanel {
 	    
 	   });
 	((Group)scene.getRoot()).getChildren();
+	 panel.setFocusable(true);
+	 panel.requestFocusInWindow();
+
 	panel.setScene(scene);
+	Timer timer = new Timer();
+	timer.schedule(new TimerTask() {
+
+	        @Override
+	        public void run() {
+	            Platform.runLater(new Runnable() {
+	                @Override
+	                public void run() {
+	                	Welcome.showAdvLessonCounting();
+	                	AdvCountingLesson.start();
+	                }
+	            });
+
+	        }
+	    }, 10000);	
 	
 	
  }
-
-public static void main(String[] args) {
-	panel = new JFXPanel();
-    frame = new JFrame("Adv Alphabet Game");
-    frame.getContentPane().add(panel);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-   
-    AdvGameAlphabet q1 = new AdvGameAlphabet();
-    q1.question('a');
-    q1.interval();
-    AdvGameAlphabet q2 = new AdvGameAlphabet();
-    q2.question('f');
-    q2.interval();
-    //AdvGameAlphabet q3 = new AdvGameAlphabet('m');
-    //AdvGameAlphabet q4 = new AdvGameAlphabet('l');
-    //AdvGameAlphabet q5 = new AdvGameAlphabet('p');
-    panel.setFocusable(true);
-    panel.requestFocusInWindow();
-
-    frame.setSize(new Dimension(990,750));
-    frame.setVisible(true);
-}
 }

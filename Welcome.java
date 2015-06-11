@@ -40,12 +40,16 @@ public class Welcome  extends JPanel{
 	public static void showAdvLessonAlphabet(){
 		cl.show(cards, "Advanced Lesson Alphabet");
 	}
+	public static void showAdvancedGameAlphabet(){
+		cl.show(cards, "Advanced Game Alphabet");
+	}
 	public static void showAdvLessonCounting(){
 		cl.show(cards, "Advanced Lesson Counting");
 	}
 	public static void showAdvGameCounting(){
 		cl.show(cards,"Advanced Game counting");
 	}
+	
 	public void init(){
 	
 	JFrame window = new JFrame("This is welcome");
@@ -59,8 +63,10 @@ public class Welcome  extends JPanel{
 	cards.add(new BasicLessonNumber(), "Basic Lesson counting");
 	//cards.add(new BasicLessonGameNumber)
 	cards.add(new AdvLessonAlphabet(),"Advanced Lesson Alphabet");
+	cards.add(new AdvGameAlphabet(),"Advanced Game Alphabet");
 	cards.add(new AdvCountingLesson(),"Advanced Lesson Counting");
 	cards.add(new AdvCountingGame(),"Advanced Game counting");
+	
 	cl.show(cards, HOMEPAGE);
 	window.add(cards);
 	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
