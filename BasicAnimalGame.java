@@ -48,7 +48,7 @@ public class BasicAnimalGame extends JPanel{
 	}
 	
 	public void init(){
-		JFrame frame = new JFrame("Basic Animal Game");
+		/*JFrame frame = new JFrame("Basic Animal Game");
 		//create the background panel that is the picture
 		BasicAnimalGame bg = new BasicAnimalGame();
 		JPanel panel2 = bg.new ContentPanel();
@@ -62,6 +62,7 @@ public class BasicAnimalGame extends JPanel{
 		frame.setSize(990,750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		*/
 		//introduce the game
 		Audio audio = Audio.getInstance();
 		InputStream sound1 = null;
@@ -566,6 +567,5 @@ public class ContentPanel extends JPanel {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		BasicAnimalGame game1 = new BasicAnimalGame("Paige Rogalski");
 	}
 }
