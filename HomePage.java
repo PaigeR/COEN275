@@ -26,16 +26,18 @@ public class HomePage extends javax.swing.JPanel {
     EntityManager entitymanager = emfactory.createEntityManager();
     
     String username = "";
-  
+    CardLayout cl;
+    JPanel cards;
+    JFrame win;
     BasicLessonAlphabet basicLA;
 
     /**
      * Creates new form HomePage1
-     
+     */
     public HomePage(JPanel c,CardLayout cardlayout, JFrame window) {
-   /* 	cards =c;
+    	cards =c;
     	cl = cardlayout;
-    	win = window;*/
+    	win = window;
         initComponents();
     }
 
