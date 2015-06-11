@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 
 
-public class BasicNumberLesson extends JPanel{
+public class BasicNumberGame extends JPanel{
 	
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class BasicNumberLesson extends JPanel{
 	boolean waitForInput;
 	Thread t;
 	
-	public BasicNumberLesson(){
+	public BasicNumberGame(){
 		frame = new JFrame("Basic Number Game");
 		frame.add(this);
 		frame.setSize(200, 200);
@@ -48,7 +48,7 @@ public class BasicNumberLesson extends JPanel{
 	}
 	
 	public static void main(String[] args) {
-		BasicNumberLesson basic = new BasicNumberLesson();
+		BasicNumberGame basic = new BasicNumberGame();
 		basic.playnumber1();
 	}
 
