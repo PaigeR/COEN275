@@ -3,6 +3,11 @@ import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import java.awt.CardLayout;
+
+import javax.swing.JFrame;
+import javax.swing.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -20,19 +25,17 @@ public class HomePage extends javax.swing.JPanel {
     EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
     EntityManager entitymanager = emfactory.createEntityManager();
     
-    JPanel cards;
-    CardLayout cl;
     String username = "";
-    JFrame win;
+  
     BasicLessonAlphabet basicLA;
 
     /**
      * Creates new form HomePage1
-     */
+     
     public HomePage(JPanel c,CardLayout cardlayout, JFrame window) {
-    	cards =c;
+   /* 	cards =c;
     	cl = cardlayout;
-    	win = window;
+    	win = window;*/
         initComponents();
     }
 
@@ -143,14 +146,11 @@ public class HomePage extends javax.swing.JPanel {
     	}
     	
     	//code to transition to starting the basic lesson
-        //cl.show(cards, "BLALPHABET");
-        //CardLayout cardlayout = (CardLayout) win.getLayout();
-        cards.add(new BasicLessonAlphabet(win,cards,cl), "Basic Lesson Alphabet");
-        cl.show(cards, "Basic Lesson Alphabet");
-        //cl.next(cards);
-        //basicLA.play(win);
         
+        Welcome.showBasicLessonAlphabet();
+        BasicLessonAlphabet.play();
         
+
        
     }                                                
 

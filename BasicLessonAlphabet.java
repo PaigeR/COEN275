@@ -1,9 +1,17 @@
 //class for Alphabet lesson
 import java.awt.*;
+
 import javax.swing.*;
+
+import com.sun.javafx.application.PlatformImpl;
+
+import java.util.Timer;
 import java.awt.event.*;
 import java.io.*;
+import java.util.TimerTask;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,43 +21,55 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 
-public class BasicLessonAlphabet extends JFXPanel{
-		JPanel cards;
+public class BasicLessonAlphabet extends JFXPanel {
+/*		JPanel cards;
 		CardLayout cl;
-		JFrame window;
-public BasicLessonAlphabet(JFrame win,JPanel car,CardLayout clayout) {
-	cards=car;
-	cl=clayout;
-	window= win;
-	play();
-}
+		JFrame window;*/
+	static JFXPanel panel;
+public BasicLessonAlphabet() {
+	panel = this;
 
-public void play(){
+}
+public static JFXPanel getPanel(){
+	return panel;
+}
+public static void play(){
 	
-	window.add(this);
-	window.setSize(990,750);
-	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	window.setVisible(true);
 	
-	
-final File f = new File("C:/Users/Rohith/Videos/AForAppleSong.mp4");
-	
+final File f = new File("C:/Users/Rohith/Videos/Y.mp4");
+
 	Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
 	Media media = new Media(f.toURI().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(media);
 	mediaPlayer.setAutoPlay(true);
 	MediaView mediaView = new MediaView(mediaPlayer);
-	
+
 	((Group)scene.getRoot()).getChildren().add(mediaView);
+	panel.setScene(scene);
 	
-	this.setScene(scene);
-	
-	cards.add(new BasicGameAlphabet(window,cards,cl), "Basic Game Alphabet");
-    cl.show(cards, "Basic Game Alphabet");
+
+	Timer timer = new Timer();
+	timer.schedule(new TimerTask() {
+
+	        @Override
+	        public void run() {
+	            Platform.runLater(new Runnable() {
+	                @Override
+	                public void run() {
+	                	Welcome.showBasicGameAlphabet();
+	        			BasicGameAlphabet.play();
+
+	                }
+	            });
+
+	        }
+	    }, 9000);	
+
+
 
 }
-	
+
 	
 	
 

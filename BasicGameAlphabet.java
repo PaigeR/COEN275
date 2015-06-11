@@ -1,46 +1,41 @@
 //class for Basic Alphabet Game
-import java.awt.*;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.TimerTask;
+import java.util.Timer;
 
-import javax.swing.*;
-
-import javazoom.jl.decoder.JavaLayerException;
-
-import com.gtranslate.Audio;
-import com.gtranslate.Language;
-
-import java.awt.event.*;
-import java.io.*;
-
-import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
 
-public class BasicGameAlphabet extends JPanel{
-	JPanel cards;
-	CardLayout cl;
-	JFrame frame;
-	boolean flag=true; // keeps track to take only one response per question
-	static JFXPanel fxPanel;
-	int response=0; // tracks the response for the question
-	private int answer; // the original answer to the question
-	public BasicGameAlphabet(JFrame win,JPanel car,CardLayout clayout){
-		cards=car;
-		cl=clayout;
-		frame= win;
-		init();
-		
+
+import javazoom.jl.decoder.JavaLayerException;
+
+import com.gtranslate.Audio;
+import com.gtranslate.Language;
+
+public class BasicGameAlphabet extends JFXPanel{
+/*	JPanel cards;
+	CardLayout cl;*/
+	static boolean flag=true; // keeps track to take only one response per question
+	static JFXPanel panel1;
+	static int response=0; // tracks the response for the question
+	private static int answer; // the original answer to the question
+	public BasicGameAlphabet(){
+		panel1 = this;
 	}
-	public void init() {
-		fxPanel = new JFXPanel();
-		frame.add(fxPanel);
-		frame.setSize(990,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+	public static void play() {
+	
 		Audio audio = Audio.getInstance();
 		try {
 			InputStream sound = null;
@@ -55,17 +50,28 @@ public class BasicGameAlphabet extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		question1(1);
-		interval();
-		question2(1);
-		interval();
-		question3(2);
-		interval();
-		question4(1);
-		interval();
-		question5(1);
-		interval();
-		try {
+			question5(1);
+			
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+
+			        @Override
+			        public void run() {
+			            Platform.runLater(new Runnable() {
+			                @Override
+			                public void run() {
+			                	Welcome.showBasicLessonAnimal();
+			                	BasicAnimalLesson.play();
+			                	
+			                }
+			            });
+
+			        }
+			    }, 9000);	
+
+
+		
+		/*try {
 			InputStream sound1 = null;
 			try {
 				sound1 = audio.getAudio("You have successfully completed Basic Alphabet Game!!!", Language.ENGLISH);
@@ -78,10 +84,10 @@ public class BasicGameAlphabet extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		*/
 		
 	}
-	public void interval(){
+	public static void interval(){
 		Audio audio = Audio.getInstance();
     	InputStream sound1 = null;
     	try {
@@ -96,17 +102,11 @@ public class BasicGameAlphabet extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			   Thread.sleep(4000);
-		   
-			} catch (InterruptedException ie) {
-			}
-		
-	 }
+    		 }
 /* this function compares the right answer to
  * to the answer provided by the user
  */
-public void selectAns(){
+public static void selectAns(){
 	InputStream sound = null;
 	InputStream sound1 = null;
 	Audio audio = Audio.getInstance();
@@ -151,14 +151,26 @@ public void selectAns(){
 /*This function retrieves the question and displays it on the Panel
  * for the user to visually see the question
  */
-public void question5(int ans) {
+public static void question5(int ans) {
 	flag=true;
+	answer = ans;
+	
 	String str= "C:/Users/Rohith/Videos/Z.mp4" ;
+	
 	final File f = new File(str);
-	answer = ans;
     
-	fxPanel.addMouseListener( new ClickListener() {
-		Audio audio = Audio.getInstance();
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
     	public void singleClick(MouseEvent e)
         {	
         	if(flag==true){
@@ -180,31 +192,29 @@ public void question5(int ans) {
         	return;
         }
 	      });
+		
 
-	Group root = new Group();
-	Scene scene = new Scene(root, 540, 210);
-	Media media = new Media(f.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView);
-	fxPanel.setScene(scene);
 	//add some voice message to move to next question
-	try {
-		   Thread.sleep(9000);
-	   
-		} catch (InterruptedException ie) {
-		}		
-}
-
-public void question4(int ans) {
+	}
+/*public static void question4(int ans) {
 	flag=true;
+	answer = ans;
+	
 	String str= "C:/Users/Rohith/Videos/Y.mp4" ;
+	
 	final File f = new File(str);
-	answer = ans;
     
-	fxPanel.addMouseListener( new ClickListener() {
-		Audio audio = Audio.getInstance();
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
     	public void singleClick(MouseEvent e)
         {	
         	if(flag==true){
@@ -227,31 +237,28 @@ public void question4(int ans) {
         }
 	      });
 
-	Group root = new Group();
-	Scene scene = new Scene(root, 540, 210);
-	Media media = new Media(f.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView);
-	fxPanel.setScene(scene);
-	//add some voice message to move to next question
-	try {
-		   Thread.sleep(9000);
-	   
-		} catch (InterruptedException ie) {
-		}	
-	
-}
 
-public void question3(int ans) {
+	//add some voice message to move to next question
+	}
+public static void question3(int ans) {
 	flag=true;
+	answer = ans;
+	
 	String str= "C:/Users/Rohith/Videos/X.mp4" ;
+	
 	final File f = new File(str);
-	answer = ans;
     
-	fxPanel.addMouseListener( new ClickListener() {
-		Audio audio = Audio.getInstance();
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
     	public void singleClick(MouseEvent e)
         {	
         	if(flag==true){
@@ -274,31 +281,28 @@ public void question3(int ans) {
         }
 	      });
 
-	Group root = new Group();
-	Scene scene = new Scene(root, 540, 210);
-	Media media = new Media(f.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView);
-	fxPanel.setScene(scene);
-	//add some voice message to move to next question
-	try {
-		   Thread.sleep(9000);
-	   
-		} catch (InterruptedException ie) {
-		}	
-	
-}
 
-public void question2(int ans) {
+	//add some voice message to move to next question
+	}
+public static void question2(int ans) {
 	flag=true;
+	answer = ans;
+	
 	String str= "C:/Users/Rohith/Videos/P.mp4" ;
+	
 	final File f = new File(str);
-	answer = ans;
     
-	fxPanel.addMouseListener( new ClickListener() {
-		Audio audio = Audio.getInstance();
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
     	public void singleClick(MouseEvent e)
         {	
         	if(flag==true){
@@ -321,30 +325,28 @@ public void question2(int ans) {
         }
 	      });
 
-	Group root = new Group();
-	Scene scene = new Scene(root, 540, 210);
-	Media media = new Media(f.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView);
-	fxPanel.setScene(scene);
+
 	//add some voice message to move to next question
-	try {
-		   Thread.sleep(9000);
-	   
-		} catch (InterruptedException ie) {
-		}	
-	
-}
-public void question1(int ans) {
+	}
+public static void question1(int ans) {
 	flag=true;
-	String str= "C:/Users/Rohith/Videos/B.mp4" ;
-	final File f = new File(str);
 	answer = ans;
+	
+	String str= "C:/Users/Rohith/Videos/B.mp4" ;
+	
+	final File f = new File(str);
     
-	fxPanel.addMouseListener( new ClickListener() {
-		Audio audio = Audio.getInstance();
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
     	public void singleClick(MouseEvent e)
         {	
         	if(flag==true){
@@ -367,22 +369,10 @@ public void question1(int ans) {
         }
 	      });
 
-	Group root = new Group();
-	Scene scene = new Scene(root, 540, 210);
-	Media media = new Media(f.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView);
-	fxPanel.setScene(scene);
+
 	//add some voice message to move to next question
-	try {
-		   Thread.sleep(9000);
-	   
-		} catch (InterruptedException ie) {
-		}	
-	
-}
+	}
+*/
 
 public static class ClickListener extends MouseAdapter implements ActionListener
 {
@@ -390,7 +380,7 @@ public static class ClickListener extends MouseAdapter implements ActionListener
         getDesktopProperty("awt.multiClickInterval");
 
     MouseEvent lastEvent;
-    Timer timer;
+    javax.swing.Timer timer;
 
     public ClickListener()
     {
@@ -399,7 +389,7 @@ public static class ClickListener extends MouseAdapter implements ActionListener
 
     public ClickListener(int delay)
     {
-        timer = new Timer( delay, this);
+        timer = new javax.swing.Timer( delay, this);
     }
 
     public void mouseClicked (MouseEvent e)
