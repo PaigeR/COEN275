@@ -12,7 +12,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 
 import javax.imageio.ImageIO;
@@ -47,22 +50,9 @@ public class BasicAnimalGame extends JPanel{
 		//do nothing
 	}
 	
-	public void init(){
-		/*JFrame frame = new JFrame("Basic Animal Game");
-		//create the background panel that is the picture
-		BasicAnimalGame bg = new BasicAnimalGame();
-		JPanel panel2 = bg.new ContentPanel();
-		panel2.setOpaque(true);
-		panel2.setLayout(new BorderLayout());
-		frame.setContentPane(panel2); 
-		panel1 = new JPanel();
-		panel1.setOpaque(false);
-		//add panel1 to the background panel
-		panel2.add(panel1, BorderLayout.CENTER);
-		frame.setSize(990,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		*/
+	public static void init(){
+		/*
+		
 		//introduce the game
 		Audio audio = Audio.getInstance();
 		InputStream sound1 = null;
@@ -105,8 +95,29 @@ public class BasicAnimalGame extends JPanel{
 	    Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
     	query1.setParameter("score", basicAnimalGameScore);
     	query1.setParameter("name", username);
+*/    	
+		Welcome.showBasicLessonCounting();
+		BasicLessonNumber.play();
+		
+		/* Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
 
-	}
+		        @Override
+		        public void run() {
+		            Platform.runLater(new Runnable() {
+		                @Override
+		                public void run() {
+		                	Welcome.showBasicLessonCounting();
+		                	BasicLessonNumber.play();
+		                	
+		                	}
+		            });
+
+		        }
+		    }, 6000);	
+
+
+*/	}
 	
 		
 public int questionOne() {
@@ -176,11 +187,11 @@ public int questionOne() {
 	 });
 	
 	//add some voice message to move to next question
-	try {
+/*	try {
 		   Thread.sleep(5000);
 	   
 		} catch (InterruptedException ie) {
-		}
+		}*/
 	
 	return score;
 }
@@ -501,7 +512,7 @@ public static class ClickListener extends MouseAdapter implements ActionListener
         getDesktopProperty("awt.multiClickInterval");
 
     MouseEvent lastEvent;
-    Timer timer;
+    javax.swing.Timer timer;
 
     public ClickListener()
     {
@@ -510,7 +521,7 @@ public static class ClickListener extends MouseAdapter implements ActionListener
 
     public ClickListener(int delay)
     {
-        timer = new Timer( delay, this);
+        timer = new javax.swing.Timer( delay, this);
     }
 
     public void mouseClicked (MouseEvent e)
@@ -565,51 +576,5 @@ public class ContentPanel extends JPanel {
 }
 
 	
-	public static void main(String[] args) {
-
 	
-		//introduce the game
-		Audio audio = Audio.getInstance();
-		InputStream sound1 = null;
-		InputStream sound2 = null;
-		try {
-			sound1 = audio.getAudio("Time to play the Animal Game!", Language.ENGLISH);
-			sound2 = audio.getAudio("After the questions, press once for YES and twice for NO", Language.ENGLISH);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			audio.play(sound1);
-			audio.play(sound2);
-		} catch (JavaLayerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		//need a better way to keep the score of the game because there are 5 instances of the class
-		//then there are 5 instances of the game score 
-		BasicAnimalGame q1 = new BasicAnimalGame();
-		BasicAnimalGame q2 = new BasicAnimalGame();
-		BasicAnimalGame q3 = new BasicAnimalGame();
-		BasicAnimalGame q4 = new BasicAnimalGame();
-		BasicAnimalGame q5 = new BasicAnimalGame();
-
-		int s1 = q1.questionOne();
-		int s2 = q2.questionTwo();
-		int s3 = q3.questionThree();
-		int s4 = q4.questionFour();
-		int s5 = q5.questionFive();
-		
-		basicAnimalGameScore = s1+s2+s3+s4+s5;
-		
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
-	    EntityManager entitymanager = emfactory.createEntityManager();
-	    
-	    //need to figure out how to get the name of the user
-	    Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
-    	query1.setParameter("score", basicAnimalGameScore);
-
-
-	}
 }
