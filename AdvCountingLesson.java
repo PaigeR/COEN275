@@ -7,8 +7,11 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.io.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -18,31 +21,14 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 public class AdvCountingLesson extends JFXPanel {
-	
-	void AdvCountingLesson(){
-		init();
+	static JFXPanel advLPanel;
+	public AdvCountingLesson(){
+		advLPanel= this;
 	}
 	
-	public void init(){
-		/*SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                start();
-            }
-        });*/
-		start();
-		
-	}
 
-	public void start() {
-		/*JFrame frame = new JFrame("Advanced Counting Lesson");
-		//final JFXPanel fxPanel = new JFXPanel();
-		frame.add(fxPanel);
-		frame.setSize(1300,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		*/
-		final File f = new File("C:/Users/proga_000/Videos/CountingToTen.mp4");
+	public static void start() {
+		final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 		
 		Group root = new Group();
 		Scene scene = new Scene(root, 540, 210);
@@ -53,18 +39,23 @@ public class AdvCountingLesson extends JFXPanel {
 		
 		((Group)scene.getRoot()).getChildren().add(mediaView);
 		
-		this.setScene(scene);
-		
-	}
-		
+		advLPanel.setScene(scene);
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+		        @Override
+		        public void run() {
+		            Platform.runLater(new Runnable() {
+		                @Override
+		                public void run() {
+		                	
+		                }
+		            });
+
+		        }
+		    }, 9000);	
 
 		
-		public static void main(String[] args) {
-			// TODO Auto-generated method stub
-			
-			
-		}
-
-	
+	}	
 	
 }

@@ -10,12 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-
 public class BasicNumberGame extends JPanel{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public int correct;
 	public int wrong;
@@ -23,20 +19,21 @@ public class BasicNumberGame extends JPanel{
 	public Integer keynumber;
 	int number;
 	JFrame frame;
-	Synthesizer  synthesizer;
+	static JPanel  countpanel;
+	static Synthesizer  synthesizer;
 	boolean waitForInput;
 	Thread t;
 	
-	public BasicNumberGame(){
-		frame = new JFrame("Basic Number Game");
-		frame.add(this);
-		frame.setSize(200, 200);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
-		KeyListener listener = new MyKeyListener();
-		frame.addKeyListener(listener);
-		setFocusable(true);
+	public BasicNumberGame(){
+		countpanel = this;
+	}
+	
+	public static void init(){
+		BasicNumberGame b1 = new BasicNumberGame();
+		KeyListener listener = b1.new MyKeyListener();
+		countpanel.addKeyListener(listener);
+		countpanel.setFocusable(true);
 		
 		try{
 			System.setProperty("freetts.voices","com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
@@ -45,11 +42,10 @@ public class BasicNumberGame extends JPanel{
 			synthesizer.allocate();
 			synthesizer.resume();
 		} catch (Exception e){}
-	}
-	
-	public static void main(String[] args) {
+		
 		BasicNumberGame basic = new BasicNumberGame();
 		basic.playnumber1();
+		
 	}
 
 	public class MyKeyListener implements KeyListener {

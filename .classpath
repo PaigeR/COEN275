@@ -2,7 +2,17 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/gtranslateapi-1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jl1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/cmu_time_awb.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/cmu_us_kal.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/cmudict04.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/cmulex.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/cmutimelex.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/en_us.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/freetts.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/freetts-jsapi10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/jsapi.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/jar files/jar files/mbrola.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/audio jar files/gtranslateapi-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rohith/Downloads/audio jar files/jl1.0.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

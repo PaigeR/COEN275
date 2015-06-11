@@ -3,12 +3,17 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import javazoom.jl.decoder.JavaLayerException;
+
+import com.gtranslate.Audio;
+import com.gtranslate.Language;
 import com.sun.javafx.application.PlatformImpl;
 
 import java.util.Timer;
 import java.awt.event.*;
 import java.io.*;
 import java.util.TimerTask;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -33,7 +38,7 @@ public static JFXPanel getPanel(){
 	return panel;
 }
 public static void play(){
-	
+		
 	
 final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 
@@ -47,7 +52,22 @@ final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 	((Group)scene.getRoot()).getChildren().add(mediaView);
 
 	panel.setScene(scene);
-	
+	System.out.println("this is test");
+	Audio audio = Audio.getInstance();
+	InputStream sound1 = null;
+	try {
+		sound1 = audio.getAudio("This is Advanced Counting Lesson", Language.ENGLISH);
+} catch (IOException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+}
+try {
+	audio.play(sound1);
+} catch (JavaLayerException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+}
+
 
 	Timer timer = new Timer();
 	timer.schedule(new TimerTask() {
@@ -57,14 +77,18 @@ final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 	            Platform.runLater(new Runnable() {
 	                @Override
 	                public void run() {
+	                /*	Welcome.showBasicGameAnimal();
+	                	BasicAnimalGame.init();
+	                	uncomment when the basicAnimalGame is fixed
+	                */
 	                	Welcome.showBasicLessonCounting();
 	                	BasicLessonNumber.play();
-	                	
+	            		
 	                }
 	            });
 
 	        }
-	    }, 6000);	
+	    }, 9000);	
 
 
 

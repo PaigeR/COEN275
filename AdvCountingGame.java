@@ -15,11 +15,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
-import javax.persistence.EntityManager;
+/*import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.swing.*;
+*/import javax.swing.*;
 
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -85,14 +85,14 @@ public class AdvCountingGame extends JFrame{
 		
 		advCountingGameScore = s1+s2+s3+s4+s5;
 		
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+		/*EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
 	    EntityManager entitymanager = emfactory.createEntityManager();
 	    
 	    //need to figure out how to get the name of the user
 	    Query query1 = entitymanager.createQuery("Update student_info s SET s.advCountingGameScore=:score WHERE s.name=:sname");
     	query1.setParameter("score", advCountingGameScore);
     	query1.setParameter("name", username);
- 
+ */
 	}
 	
 	

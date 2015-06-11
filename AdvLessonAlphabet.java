@@ -1,26 +1,62 @@
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.application.Platform;
+
 import javax.swing.*;
+
 import javazoom.jl.decoder.JavaLayerException;
+
 import com.gtranslate.Audio;
 import com.gtranslate.Language;
 
-class AdvLessonAlphabet extends JFrame {
-	class KeyTyped extends JPanel implements KeyListener{
-	    public void keyTyped(KeyEvent e) {
-	    	char c=e.getKeyChar();
+class AdvLessonAlphabet extends JPanel {
+	static JPanel aPanel;
+	 public AdvLessonAlphabet() {
+		 aPanel = this;
+	 }
+	 public static void init(){
+         /*JFrame frame = new JFrame();
+         frame.getContentPane().add(aPanel);
+*/			
+	        aPanel.setSize(990,750);
+
+
+	        aPanel.setFocusable(true);
+            aPanel.requestFocusInWindow();
+
+            /*frame.setSize(990,750);
+            frame.setVisible(true);	    
+*/
+	        Audio audio = Audio.getInstance();
+			InputStream sound1 = null;
+			try {
+				sound1 = audio.getAudio("This is Advanced Alphabet Lesson", Language.ENGLISH);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			audio.play(sound1);
+		} catch (JavaLayerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			
+	
+	aPanel.addKeyListener(new KeyListener() {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        	char c=e.getKeyChar();
 	        System.out.println("keyTyped: "+e.getKeyChar());
 	        Audio audio = Audio.getInstance();
 			InputStream sound = null;
-			int ascii = 'c';
 			try {
-				if ((ascii >= 65 && ascii <= 90) || (ascii >= 97 && ascii <= 122)){
-					sound = audio.getAudio("" + c, Language.ENGLISH);
-				}
-				else{
-					sound = audio.getAudio("", Language.ENGLISH);
-				}
+					sound = audio.getAudio(" "+ c, Language.ENGLISH);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -31,28 +67,33 @@ class AdvLessonAlphabet extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-	        
-	    }
-	    public void keyPressed(KeyEvent e) {
-	    }
-	    public void keyReleased(KeyEvent e) {
-	    }
-	}
+        }
 
-    public AdvLessonAlphabet() {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(990,750);
+        @Override
+        public void keyReleased(KeyEvent e) {}
 
-        KeyTyped key=new KeyTyped();
+        @Override
+        public void keyPressed(KeyEvent e) {
+            System.out.println("Pressed " + e.getKeyChar());
+        }
+    });
+	Timer timer = new Timer();
+	timer.schedule(new TimerTask() {
 
-        key.addKeyListener(key);
-        key.setFocusable(true);
+	        @Override
+	        public void run() {
+	            Platform.runLater(new Runnable() {
+	                @Override
+	                public void run() {
+	                	//code to transition to Adv counting lesson
+	                	Welcome.showAdvLessonCounting();
+	                	AdvCountingLesson.start();
+	                	}
+	            });
 
-        add(key);
-        setVisible(true);
-    }
-    public static void main(String[] args) {
-        new AdvLessonAlphabet();
-    }
+	        }
+	    }, 9000);	
+
+}
+	    
 }

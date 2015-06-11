@@ -31,6 +31,15 @@ public class Welcome  extends JPanel{
 	public static void showBasicLessonCounting(){
 		cl.show(cards, "Basic Lesson counting");
 	}
+	public static void showBasicGameCounting(){
+		cl.show(cards, "Basic Game counting");
+	}
+	public static void showAdvLessonAlphabet(){
+		cl.show(cards, "Advanced Lesson Alphabet");
+	}
+	public static void showAdvLessonCounting(){
+		cl.show(cards, "Advanced Lesson Counting");
+	}
 	public void init(){
 	
 	JFrame window = new JFrame("This is welcome");
@@ -40,11 +49,12 @@ public class Welcome  extends JPanel{
     cards.add(new BasicLessonAlphabet(), "Basic Lesson Alphabet");
 	cards.add(new BasicGameAlphabet(), "Basic Game Alphabet");
 	cards.add(new BasicAnimalLesson(),"Basic Lesson Animal");
+	cards.add(new BasicAnimalGame(),"Basic Game Animal");
 	cards.add(new BasicLessonNumber(), "Basic Lesson counting");
-
-	//cards.add(new BasicLessonAlphabet(), BLALPHABET);
-	//cards.add(new BasicGameAlphabet(), BGALPHABET);
-    cl.show(cards, HOMEPAGE);
+	//cards.add(new BasicLessonGameNumber)
+	cards.add(new AdvLessonAlphabet(),"Advanced Lesson Alphabet");
+	cards.add(new AdvCountingLesson(),"Advanced Lesson Counting");
+	cl.show(cards, HOMEPAGE);
 	window.add(cards);
 	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	window.pack();

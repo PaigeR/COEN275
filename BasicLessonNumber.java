@@ -57,12 +57,13 @@ final File f = new File("C:/Users/Rohith/Videos/P.mp4");
 	            Platform.runLater(new Runnable() {
 	                @Override
 	                public void run() {
-	                	
-	                }
+	                	Welcome.showBasicGameCounting();
+	                	BasicNumberGame.init();
+	                	}
 	            });
 
 	        }
-	    }, 6000);	
+	    }, 9000);	
 
 
 
