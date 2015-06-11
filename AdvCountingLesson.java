@@ -48,6 +48,8 @@ public class AdvCountingLesson extends JFXPanel {
 		            Platform.runLater(new Runnable() {
 		                @Override
 		                public void run() {
+		                	Welcome.showAdvGameCounting();
+		                	AdvCountingGame.play();
 		                	
 		                }
 		            });

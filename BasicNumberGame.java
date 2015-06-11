@@ -2,6 +2,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.application.Platform;
 
 import javax.speech.Central;
 import javax.speech.synthesis.Synthesizer;
@@ -45,7 +49,24 @@ public class BasicNumberGame extends JPanel{
 		
 		BasicNumberGame basic = new BasicNumberGame();
 		basic.playnumber1();
-		
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+		        @Override
+		        public void run() {
+		            Platform.runLater(new Runnable() {
+		                @Override
+		                public void run() {
+		                	//return back to the home page
+		                	Welcome.showHomePage();
+		                	
+		                	}
+		            });
+
+		        }
+		    }, 12000);	
+
+
 	}
 
 	public class MyKeyListener implements KeyListener {

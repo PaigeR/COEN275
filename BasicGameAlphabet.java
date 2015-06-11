@@ -67,7 +67,7 @@ public class BasicGameAlphabet extends JFXPanel{
 			            });
 
 			        }
-			    }, 9000);	
+			    }, 19000);	
 
 
 		

@@ -1,11 +1,14 @@
-//Class to play the advanced counting game
-//Ask question and input number
-
-import java.awt.BorderLayout;
-import java.awt.event.*;
+//class for Basic Alphabet Game
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -15,548 +18,422 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
-/*import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-*/import javax.swing.*;
 
 import javazoom.jl.decoder.JavaLayerException;
 
 import com.gtranslate.Audio;
 import com.gtranslate.Language;
 
-public class AdvCountingGame extends JFrame{
-
-	public static JFrame frame = new JFrame("Advanced Counting Game");
-	int score;
-	boolean flag=true; //to keep track to only take one response per question 
-	static int advCountingGameScore = 0;
-	static String username;
-	
-	public AdvCountingGame(String name){
-		username = name;
-		init();
-	}
-	
+public class AdvCountingGame extends JFXPanel{
+/*	JPanel cards;
+	CardLayout cl;*/
+	static boolean flag=true; // keeps track to take only one response per question
+	static JFXPanel panel1;
+	static int response=0; // tracks the response for the question
+	private static int answer; // the original answer to the question
 	public AdvCountingGame(){
-		//do nothing
+		panel1 = this;
 	}
+	public static void play() {
 	
-	public void init(){
-
-		frame.setSize(1300,750);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		//this line fixes threading issues of the FX toolkit closing down when I call remove at the end of the quesstions
-		Platform.setImplicitExit(false);
-		//introduce the game
 		Audio audio = Audio.getInstance();
-		InputStream sound1 = null;
-		InputStream sound2 = null;
-		/*try {
-			sound1 = audio.getAudio("Time to play the Coutning Game Game!", Language.ENGLISH);
-			sound2 = audio.getAudio("After the questions, press the number of how many sounds you heard", Language.ENGLISH);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
-			audio.play(sound1);
-			audio.play(sound2);
-		} catch (JavaLayerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
-		//need a better way to keep the score of the game because there are 5 instances of the class
-		//then there are 5 instances of the game score
-		AdvCountingGame g1 = new AdvCountingGame();
-		AdvCountingGame g2 = new AdvCountingGame();
-		AdvCountingGame g3 = new AdvCountingGame();
-		AdvCountingGame g4 = new AdvCountingGame();
-		AdvCountingGame g5 = new AdvCountingGame();
-		
-		int s1 = g1.questionOne();
-		int s2 = g2.questionTwo();
-		int s3 = g3.questionThree();
-		int s4 = g4.questionFour();
-		int s5 = g5.questionFive();
-		
-		advCountingGameScore = s1+s2+s3+s4+s5;
-		
-		/*EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
-	    EntityManager entitymanager = emfactory.createEntityManager();
-	    
-	    //need to figure out how to get the name of the user
-	    Query query1 = entitymanager.createQuery("Update student_info s SET s.advCountingGameScore=:score WHERE s.name=:sname");
-    	query1.setParameter("score", advCountingGameScore);
-    	query1.setParameter("name", username);
- */
-	}
-	
-	
-public int questionOne(){
-		flag=true;
-		score = 0;
-		final JFXPanel fxPanel = new JFXPanel();
-		frame.add(fxPanel);
-		
-		final File f1 = new File("C:/Users/proga_000/Videos/catmeow1.mp4");
-		
-		Group root = new Group();
-		Scene scene = new Scene(root, 540, 210);
-		
-		Media media = new Media(f1.toURI().toString());
-		MediaPlayer mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.setAutoPlay(true);
-		MediaView mediaView = new MediaView(mediaPlayer);
-		((Group)scene.getRoot()).getChildren().add(mediaView);
-		fxPanel.setScene(scene);
-
-		
-		Audio audio = Audio.getInstance();
-		InputStream sound = null;
-		try {
-			Thread.sleep(5000);
-			sound = audio.getAudio("How many times did the cat meow?", Language.ENGLISH);
-		} catch (IOException | InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
+			InputStream sound = null;
+			try {
+				sound = audio.getAudio("This is Advanced Couting Game", Language.ENGLISH);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			audio.play(sound);
-		} catch (JavaLayerException e1) {
+		} catch (JavaLayerException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
+			question5(1);
+			
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+
+			        @Override
+			        public void run() {
+			            Platform.runLater(new Runnable() {
+			                @Override
+			                public void run() {
+			                	Welcome.showHomePage();	
+			                }
+			            });
+
+			        }
+			    }, 9000);	
+
+
 		
-		frame.addKeyListener(new KeyTyped()
-		{
-			Audio audio = Audio.getInstance();
-	    	InputStream sound = null;
-			public void keyTyped(KeyEvent e){
-				System.out.println("keyTyped: "+e.getKeyChar());
-				char c=e.getKeyChar();
-				if(flag == true){ 
-					
-					if(c=='1'){
-						try {
-							sound = audio.getAudio("Correct Answer!", Language.ENGLISH);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						try {
-							audio.play(sound);
-						} catch (JavaLayerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-		        	
-						score++;
-					}
-					else {
-						try {
-							sound = audio.getAudio("I'm sorry... that's the wrong answer", Language.ENGLISH);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						try {
-							audio.play(sound);
-						} catch (JavaLayerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-					flag=false;
-					return;
-				}
+		/*try {
+			InputStream sound1 = null;
+			try {
+				sound1 = audio.getAudio("You have successfully completed Basic Alphabet Game!!!", Language.ENGLISH);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		});
-				
+			audio.play(sound1);
+		} catch (JavaLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		
+	}
+	public static void interval(){
+		Audio audio = Audio.getInstance();
+    	InputStream sound1 = null;
+    	try {
+			sound1 = audio.getAudio("Click once to Answer YES. Double Click to NO", Language.ENGLISH);
+			try {
+				audio.play(sound1);
+			} catch (JavaLayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    		 }
+/* this function compares the right answer to
+ * to the answer provided by the user
+ */
+public static void selectAns(){
+	InputStream sound = null;
+	InputStream sound1 = null;
+	Audio audio = Audio.getInstance();
+	
+	System.out.println("Answer:  "+answer);
+	System.out.println("response:"+ response);
+		if(answer==response){
 		try {
-			   Thread.sleep(3000);
-			   frame.remove(fxPanel);
-		   
-		} catch (InterruptedException ie) {
+		      
+    		sound = audio.getAudio("Correct Answer", Language.ENGLISH);
+    		System.out.println("Correct Answer");
+    	} catch (IOException e1) {
+    		// TODO Auto-generated catch block
+    		e1.printStackTrace();
+    	}
+    	try {
+    		audio.play(sound);
+    	} catch (JavaLayerException e1) {
+    		// TODO Auto-generated catch block
+    		e1.printStackTrace();
+    	}
+		}
+		else {
+			try {
+				
+	    		sound1 = audio.getAudio("SORRY. Wrong answer", Language.ENGLISH);
+	    		System.out.println("Sorry. Wrong Answer");
+	    	} catch (IOException e1) {
+	    		// TODO Auto-generated catch block
+	    		e1.printStackTrace();
+	    	}
+	    	try {
+	    		audio.play(sound1);
+	    	} catch (JavaLayerException e1) {
+	    		// TODO Auto-generated catch block
+	    		e1.printStackTrace();
+	    	}
+			
 		}
 	
-		return score;
 }
+/*This function retrieves the question and displays it on the Panel
+ * for the user to visually see the question
+ */
+public static void question5(int ans) {
+	flag=true;
+	answer = ans;
 	
-public int questionTwo(){
-	score=0;
-	final JFXPanel fxPanel2 = new JFXPanel();
-	frame.add(fxPanel2);
+	String str= "C:/Users/Rohith/Videos/Y.mp4" ;
 	
-	final File f2 = new File("C:/Users/proga_000/Videos/sheepbaa3.mp4");
-	
+	final File f = new File(str);
+    
 	Group root = new Group();
-	root.getChildren().clear();
 	Scene scene = new Scene(root, 540, 210);
-
-	Media media = new Media(f2.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView2 = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView2);
-	fxPanel2.setScene(scene);
-	
-	
-	Audio audio = Audio.getInstance();
-	InputStream sound = null;
-	try {
-		Thread.sleep(5000);
-		sound = audio.getAudio("How many times did the sheep baa?", Language.ENGLISH);
-	} catch (IOException | InterruptedException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	try {
-		audio.play(sound);
-	} catch (JavaLayerException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	
-	frame.addKeyListener(new KeyTyped()
-	{
-		Audio audio = Audio.getInstance();
-    	InputStream sound = null;
-		public void keyTyped(KeyEvent e){
-			System.out.println("keyTyped: "+e.getKeyChar());
-			char c=e.getKeyChar();
-			if(flag == true){
-				if(c=='3'){
-					try {
-						sound = audio.getAudio("Correct Answer!", Language.ENGLISH);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						audio.play(sound);
-					} catch (JavaLayerException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-	        	
-					score++;
-				}
-				else {
-					try {
-						sound = audio.getAudio("I'm sorry... that's the wrong answer", Language.ENGLISH);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						audio.play(sound);
-					} catch (JavaLayerException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				flag=false;
-				return;
-			}
-		}
-	});
-	
-	
-	try {
-		   Thread.sleep(3000);
-		   frame.remove(fxPanel2);
-	   
-	} catch (InterruptedException ie) {
-	}
-
-	return score;
-}
-
-public int questionThree(){
-	score = 0;
-	final JFXPanel fxPanel3 = new JFXPanel();
-	frame.add(fxPanel3);
-	
-	final File f3 = new File("C:/Users/proga_000/Videos/cowMoo2.mp4");
-	
-	Group root = new Group();
-	root.getChildren().clear();
-	Scene scene = new Scene(root, 540, 210);
-
-	Media media = new Media(f3.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView3 = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView3);
-	fxPanel3.setScene(scene);	
-	
-	Audio audio = Audio.getInstance();
-	InputStream sound = null;
-	try {
-		Thread.sleep(8000);
-		sound = audio.getAudio("How many times did the cow moo?", Language.ENGLISH);
-	} catch (IOException | InterruptedException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	try {
-		audio.play(sound);
-	} catch (JavaLayerException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	
-	frame.addKeyListener(new KeyTyped()
-	{
-		Audio audio = Audio.getInstance();
-    	InputStream sound = null;
-		public void keyTyped(KeyEvent e){
-			System.out.println("keyTyped: "+e.getKeyChar());
-			char c=e.getKeyChar();
-		  if(flag==true){	
-			if(c=='2'){
-				try {
-	        		sound = audio.getAudio("Correct Answer!", Language.ENGLISH);
-	        	} catch (IOException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	try {
-	        		audio.play(sound);
-	        	} catch (JavaLayerException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	
-	        	score++;
-	        	
-			}
-			else {
-				try {
-	        		sound = audio.getAudio("I'm sorry... that's the wrong answer", Language.ENGLISH);
-	        	} catch (IOException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	try {
-	        		audio.play(sound);
-	        	} catch (JavaLayerException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-			}
-			flag=false;
-        	return;
-		}
-	  }	
-	});
-	
-	try {
-		   Thread.sleep(5000);
-		   frame.remove(fxPanel3);
-	} catch (InterruptedException ie) {
-	}
-	
-	return score;
-}
-
-public int questionFour(){
-	score=0;
-	final JFXPanel fxPanel4 = new JFXPanel();
-	frame.add(fxPanel4);
-	
-	final File f4 = new File("C:/Users/proga_000/Videos/dogbark1.mp4");
-	
-	Group root = new Group();
-	root.getChildren().clear();
-	Scene scene = new Scene(root, 540, 210);
-	
-	Media media = new Media(f4.toURI().toString());
+	Media media = new Media(f.toURI().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(media);
 	mediaPlayer.setAutoPlay(true);
 	MediaView mediaView = new MediaView(mediaPlayer);
+	
 	((Group)scene.getRoot()).getChildren().add(mediaView);
 	
-	fxPanel4.setScene(scene);
 	
-	Audio audio = Audio.getInstance();
-	InputStream sound = null;
-	try {
-		Thread.sleep(3000);
-		sound = audio.getAudio("How many times did the dog bark?", Language.ENGLISH);
-	} catch (IOException | InterruptedException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	try {
-		audio.play(sound);
-	} catch (JavaLayerException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	
-	frame.addKeyListener(new KeyTyped()
-	{
-		Audio audio = Audio.getInstance();
-    	InputStream sound = null;
-		public void keyTyped(KeyEvent e){
-			System.out.println("keyTyped: "+e.getKeyChar());
-			char c=e.getKeyChar();
-		 if(flag==true){
-			if(c=='1'){
-				try {
-	        		sound = audio.getAudio("Correct Answer!", Language.ENGLISH);
-	        	} catch (IOException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	try {
-	        		audio.play(sound);
-	        	} catch (JavaLayerException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	
-	        	score++;
-	        	
-			}
-			else {
-				try {
-	        		sound = audio.getAudio("I'm sorry... that's the wrong answer", Language.ENGLISH);
-	        	} catch (IOException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	try {
-	        		audio.play(sound);
-	        	} catch (JavaLayerException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-			}
-			flag=false;
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
         	return;
-		}
-	  }
-	});
-	
-	try {
-		   Thread.sleep(5000);
-		   frame.remove(fxPanel4);
-	   
-		} catch (InterruptedException ie) {
-	}
-	
-	return score;
-	
-}
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+	Timer timer = new Timer();
+	timer.schedule(new TimerTask() {
 
-public int questionFive(){
-	score = 0;
-	final JFXPanel fxPanel5 = new JFXPanel();
-	frame.add(fxPanel5);
-	
-	final File f5 = new File("C:/Users/proga_000/Videos/duckquack4.mp4");
-	
-	Group root = new Group();
-	root.getChildren().clear();
-	Scene scene = new Scene(root, 540, 210);
-	
-	Media media = new Media(f5.toURI().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(media);
-	mediaPlayer.setAutoPlay(true);
-	MediaView mediaView = new MediaView(mediaPlayer);
-	((Group)scene.getRoot()).getChildren().add(mediaView);
-	fxPanel5.setScene(scene);
-	
-	Audio audio = Audio.getInstance();
-	InputStream sound = null;
-	try {
-		Thread.sleep(7000);
-		sound = audio.getAudio("How many times did the duck quack?", Language.ENGLISH);
-	} catch (IOException | InterruptedException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	try {
-		audio.play(sound);
-	} catch (JavaLayerException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	
-	frame.addKeyListener(new KeyTyped()
-	{
-		Audio audio = Audio.getInstance();
-    	InputStream sound = null;
-		public void keyTyped(KeyEvent e){
-			System.out.println("keyTyped: "+e.getKeyChar());
-			char c=e.getKeyChar();
-		  if(flag==true){
-			if(c=='4'){
-				try {
-	        		sound = audio.getAudio("Correct Answer!", Language.ENGLISH);
-	        	} catch (IOException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	try {
-	        		audio.play(sound);
-	        	} catch (JavaLayerException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	
-	        	score++;
-	        	
-			}
-			else {
-				try {
-	        		sound = audio.getAudio("I'm sorry... that's the wrong answer", Language.ENGLISH);
-	        	} catch (IOException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-	        	try {
-	        		audio.play(sound);
-	        	} catch (JavaLayerException e1) {
-	        		// TODO Auto-generated catch block
-	        		e1.printStackTrace();
-	        	}
-			}
-			flag=false;
-        	return;
-		}
-	  }
-	});
+	        @Override
+	        public void run() {
+	            Platform.runLater(new Runnable() {
+	                @Override
+	                public void run() {
+	                	
+	                	
+	                }
+	            });
+
+	        }
+	    }, 9000);	
+
 		
-	try {
-		   Thread.sleep(5000);
-		   ((Group)scene.getRoot()).getChildren().remove(mediaView);
-		   frame.remove(fxPanel5);
-	   
-		} catch (InterruptedException ie) {
+
+	//add some voice message to move to next question
 	}
+/*public static void question4(int ans) {
+	flag=true;
+	answer = ans;
 	
-	return score;
-}
+	String str= "C:/Users/Rohith/Videos/Y.mp4" ;
+	
+	final File f = new File(str);
+    
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
 
 
-class KeyTyped implements KeyListener{
-    public void keyTyped(KeyEvent e) {
-        System.out.println("keyTyped: "+e.getKeyChar());
+	//add some voice message to move to next question
+	}
+public static void question3(int ans) {
+	flag=true;
+	answer = ans;
+	
+	String str= "C:/Users/Rohith/Videos/X.mp4" ;
+	
+	final File f = new File(str);
+    
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+
+
+	//add some voice message to move to next question
+	}
+public static void question2(int ans) {
+	flag=true;
+	answer = ans;
+	
+	String str= "C:/Users/Rohith/Videos/P.mp4" ;
+	
+	final File f = new File(str);
+    
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+
+
+	//add some voice message to move to next question
+	}
+public static void question1(int ans) {
+	flag=true;
+	answer = ans;
+	
+	String str= "C:/Users/Rohith/Videos/B.mp4" ;
+	
+	final File f = new File(str);
+    
+	Group root = new Group();
+	Scene scene = new Scene(root, 540, 210);
+	Media media = new Media(f.toURI().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(media);
+	mediaPlayer.setAutoPlay(true);
+	MediaView mediaView = new MediaView(mediaPlayer);
+	
+	((Group)scene.getRoot()).getChildren().add(mediaView);
+	
+	panel1.setScene(scene);	
+	panel1.addMouseListener( new ClickListener() {
+    	public void singleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=1;
+        	selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        } 
+        public void doubleClick(MouseEvent e)
+        {	
+        	if(flag==true){
+        		response=2;
+        		selectAns();
+        	}
+        	flag=false;
+        	response=0;
+        	return;
+        }
+	      });
+
+
+	//add some voice message to move to next question
+	}
+*/
+
+public static class ClickListener extends MouseAdapter implements ActionListener
+{
+    static final int clickInterval = (Integer)Toolkit.getDefaultToolkit().
+        getDesktopProperty("awt.multiClickInterval");
+
+    MouseEvent lastEvent;
+    javax.swing.Timer timer;
+
+    public ClickListener()
+    {
+        this(clickInterval);
     }
-    public void keyPressed(KeyEvent e) {}
-    public void keyReleased(KeyEvent e) {}
-}
 
-
-    public static void main(String[] args) {
+    public ClickListener(int delay)
+    {
+        timer = new javax.swing.Timer( delay, this);
     }
+
+    public void mouseClicked (MouseEvent e)
+    {
+        if (e.getClickCount() > 2) return;
+
+        lastEvent = e;
+
+        if (timer.isRunning())
+        {
+            timer.stop();
+            doubleClick( lastEvent );
+        }
+        else
+        {
+            timer.restart();
+        }
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        timer.stop();
+        singleClick( lastEvent );
+    }
+
+    public void singleClick(MouseEvent e) {}
+    public void doubleClick(MouseEvent e) {}
+    
 }
+	
 
 
+}
