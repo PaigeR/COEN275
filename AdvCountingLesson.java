@@ -5,6 +5,11 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import javazoom.jl.decoder.JavaLayerException;
+
+import com.gtranslate.Audio;
+import com.gtranslate.Language;
+
 import java.awt.event.*;
 import java.io.*;
 import java.util.Timer;
@@ -28,6 +33,20 @@ public class AdvCountingLesson extends JFXPanel {
 	
 
 	public static void start() {
+		Audio audio = Audio.getInstance();
+		try {
+			InputStream sound = null;
+			try {
+				sound = audio.getAudio("This is Advanced Counting Lesson", Language.ENGLISH);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			audio.play(sound);
+		} catch (JavaLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 		
 		Group root = new Group();

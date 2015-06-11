@@ -38,6 +38,20 @@ public static JFXPanel getPanel(){
 	return panel;
 }
 public static void play(){
+	Audio audio = Audio.getInstance();
+	try {
+		InputStream sound = null;
+		try {
+			sound = audio.getAudio("This is basic Animal Lesson", Language.ENGLISH);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		audio.play(sound);
+	} catch (JavaLayerException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 		
 	
 final File f = new File("C:/Users/Rohith/Videos/X.mp4");
@@ -53,7 +67,6 @@ final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 
 	panel.setScene(scene);
 	System.out.println("this is test");
-	Audio audio = Audio.getInstance();
 	InputStream sound1 = null;
 	try {
 		sound1 = audio.getAudio("This is Advanced Counting Lesson", Language.ENGLISH);

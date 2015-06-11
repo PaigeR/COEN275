@@ -40,7 +40,7 @@ public class AdvCountingGame extends JFXPanel{
 		try {
 			InputStream sound = null;
 			try {
-				sound = audio.getAudio("This is Advanced Couting Game", Language.ENGLISH);
+				sound = audio.getAudio("This is Advanced Counting Game.", Language.ENGLISH);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

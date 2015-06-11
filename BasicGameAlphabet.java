@@ -40,7 +40,7 @@ public class BasicGameAlphabet extends JFXPanel{
 		try {
 			InputStream sound = null;
 			try {
-				sound = audio.getAudio("This is Basic Alphabet game", Language.ENGLISH);
+				sound = audio.getAudio("This is Basic Alphabet game. Press once to answer YES. twice to answer NO.", Language.ENGLISH);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

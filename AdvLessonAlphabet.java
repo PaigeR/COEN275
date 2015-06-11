@@ -34,7 +34,7 @@ class AdvLessonAlphabet extends JPanel {
 	        Audio audio = Audio.getInstance();
 			InputStream sound1 = null;
 			try {
-				sound1 = audio.getAudio("This is Advanced Alphabet Lesson", Language.ENGLISH);
+				sound1 = audio.getAudio("This is Advanced Alphabet Lesson. Press any keyboard to Learn the alphabet.", Language.ENGLISH);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
