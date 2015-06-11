@@ -16,11 +16,11 @@ import java.io.InputStream;
 import javafx.embed.swing.JFXPanel;
 
 import javax.imageio.ImageIO;
-import javax.persistence.EntityManager;
+/*import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.swing.*;
+*/import javax.swing.*;
 
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -566,6 +566,50 @@ public class ContentPanel extends JPanel {
 
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+	
+		//introduce the game
+		Audio audio = Audio.getInstance();
+		InputStream sound1 = null;
+		InputStream sound2 = null;
+		try {
+			sound1 = audio.getAudio("Time to play the Animal Game!", Language.ENGLISH);
+			sound2 = audio.getAudio("After the questions, press once for YES and twice for NO", Language.ENGLISH);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			audio.play(sound1);
+			audio.play(sound2);
+		} catch (JavaLayerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//need a better way to keep the score of the game because there are 5 instances of the class
+		//then there are 5 instances of the game score 
+		BasicAnimalGame q1 = new BasicAnimalGame();
+		BasicAnimalGame q2 = new BasicAnimalGame();
+		BasicAnimalGame q3 = new BasicAnimalGame();
+		BasicAnimalGame q4 = new BasicAnimalGame();
+		BasicAnimalGame q5 = new BasicAnimalGame();
+
+		int s1 = q1.questionOne();
+		int s2 = q2.questionTwo();
+		int s3 = q3.questionThree();
+		int s4 = q4.questionFour();
+		int s5 = q5.questionFive();
+		
+		basicAnimalGameScore = s1+s2+s3+s4+s5;
+		
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+	    EntityManager entitymanager = emfactory.createEntityManager();
+	    
+	    //need to figure out how to get the name of the user
+	    Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
+    	query1.setParameter("score", basicAnimalGameScore);
+
+
 	}
 }
