@@ -1,26 +1,25 @@
-/*
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-*/
+
+
 /**
  *
  * @author proga_000
  */
 public class HomePage extends javax.swing.JPanel {
     
-    //EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
-    //EntityManager entitymanager = emfactory.createEntityManager();
+    EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+    EntityManager entitymanager = emfactory.createEntityManager();
     
     String username = "";
+  
+    BasicLessonAlphabet basicLA;
 
     /**
      * Creates new form HomePage1
-     */
-    public HomePage() {
+     
+    public HomePage(JPanel c,CardLayout cardlayout, JFrame window) {
+   /* 	cards =c;
+    	cl = cardlayout;
+    	win = window;*/
         initComponents();
     }
 
@@ -128,8 +127,16 @@ public class HomePage extends javax.swing.JPanel {
     		transaction.begin();
     		entitymanager.persist(newStudent);
     		transaction.commit();
+
     	}*/
+    	
     	//code to transition to starting the basic lesson
+        
+        Welcome.showBasicLessonAlphabet();
+        BasicLessonAlphabet.play();
+        
+
+       
     }                                                
 
     private void startAdvButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
