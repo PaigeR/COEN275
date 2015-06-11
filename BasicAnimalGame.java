@@ -574,7 +574,4 @@ public class ContentPanel extends JPanel {
 	    g.drawImage(bgimage, 1, 1, null);
 	  }
 }
-
-	
-	
 }
