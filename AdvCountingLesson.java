@@ -27,12 +27,16 @@ import javafx.stage.Stage;
 
 public class AdvCountingLesson extends JFXPanel {
 	static JFXPanel advLPanel;
+	static String username;
+	
+	
 	public AdvCountingLesson(){
 		advLPanel= this;
 	}
 	
 
-	public static void start() {
+	public static void start(String name) {
+		username = name;
 		Audio audio = Audio.getInstance();
 		try {
 			InputStream sound = null;
@@ -47,10 +51,10 @@ public class AdvCountingLesson extends JFXPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		final File f = new File("C:/Users/Rohith/Videos/X.mp4");
+		final File f = new File("C:/Users/proga_000/Videos/CountingToTen.mp4");
 		
 		Group root = new Group();
-		Scene scene = new Scene(root, 540, 210);
+		Scene scene = new Scene(root, 740, 210);
 		Media media = new Media(f.toURI().toString());
 		MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
@@ -68,13 +72,13 @@ public class AdvCountingLesson extends JFXPanel {
 		                @Override
 		                public void run() {
 		                	Welcome.showAdvGameCounting();
-		                	AdvCountingGame.play();
+		                	AdvCountingGame.play(username);
 		                	
 		                }
 		            });
 
 		        }
-		    }, 9000);	
+		    }, 190000);	
 
 		
 	}	

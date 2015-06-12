@@ -26,10 +26,10 @@ import javafx.stage.Stage;
 
 
 public class BasicAnimalLesson extends JFXPanel {
-/*		JPanel cards;
-		CardLayout cl;
-		JFrame window;*/
+	
 	static JFXPanel panel;
+	static String username;
+	
 public BasicAnimalLesson() {
 	panel = this;
 
@@ -37,7 +37,8 @@ public BasicAnimalLesson() {
 public static JFXPanel getPanel(){
 	return panel;
 }
-public static void play(){
+public static void play(String name){
+	username = name;
 	Audio audio = Audio.getInstance();
 	try {
 		InputStream sound = null;
@@ -54,7 +55,7 @@ public static void play(){
 	}
 		
 	
-final File f = new File("C:/Users/Rohith/Videos/X.mp4");
+final File f = new File("C:/Users/proga_000/Videos/FarmAnimalsSong.mp4");
 
 	Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
@@ -66,20 +67,6 @@ final File f = new File("C:/Users/Rohith/Videos/X.mp4");
 	((Group)scene.getRoot()).getChildren().add(mediaView);
 
 	panel.setScene(scene);
-	System.out.println("this is test");
-	InputStream sound1 = null;
-	try {
-		sound1 = audio.getAudio("This is Advanced Counting Lesson", Language.ENGLISH);
-} catch (IOException e1) {
-	// TODO Auto-generated catch block
-	e1.printStackTrace();
-}
-try {
-	audio.play(sound1);
-} catch (JavaLayerException e1) {
-	// TODO Auto-generated catch block
-	e1.printStackTrace();
-}
 
 
 	Timer timer = new Timer();
@@ -90,18 +77,15 @@ try {
 	            Platform.runLater(new Runnable() {
 	                @Override
 	                public void run() {
-	                /*	Welcome.showBasicGameAnimal();
-	                	BasicAnimalGame.init();
-	                	uncomment when the basicAnimalGame is fixed
-	                */
-	                	Welcome.showBasicLessonCounting();
-	                	BasicLessonNumber.play();
+	                	
+	                	Welcome.showBasicGameAnimal();
+	                    BasicAnimalGame.init(username);
 	            		
 	                }
 	            });
 
 	        }
-	    }, 9000);	
+	    }, 114000);	
 
 
 

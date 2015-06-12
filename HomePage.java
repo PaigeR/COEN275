@@ -5,27 +5,25 @@ import javax.swing.JPanel;
 
 import java.awt.CardLayout;
 
-import javax.swing.JFrame;
 import javax.swing.*;
-
-/*import javax.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-*/
+
 /**
  *
  * @author proga_000
  */
 public class HomePage extends javax.swing.JPanel {
  
-/*    EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
-    EntityManager entitymanager = emfactory.createEntityManager();
+	//EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+    //EntityManager entitymanager = emfactory.createEntityManager();
     
-*/    String username = "";
+    String username = "";
     CardLayout cl;
     JPanel cards;
     JFrame win;
@@ -120,6 +118,9 @@ public class HomePage extends javax.swing.JPanel {
 
     private void studentInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         // TODO add your handling code here:
+    	username = nameTextField.getText();
+    	Welcome.showCheckProgress();
+    	CheckProgress.initComponents(username);
     }                                                 
 
     private void startBasicButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
@@ -150,9 +151,9 @@ public class HomePage extends javax.swing.JPanel {
 */    	//code to transition to starting the basic lesson
         
         Welcome.showBasicLessonAlphabet();
-        BasicLessonAlphabet.play();
+        BasicLessonAlphabet.play(username);
+       
         
-
        
     }                                                
 
@@ -184,7 +185,7 @@ public class HomePage extends javax.swing.JPanel {
     	
 */    	//code to transition to start the advanced lesson 
         Welcome.showAdvLessonAlphabet();
-        AdvLessonAlphabet.init();
+        AdvLessonAlphabet.init(username);
     }                                              
 
 

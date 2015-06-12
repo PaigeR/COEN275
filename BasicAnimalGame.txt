@@ -12,16 +12,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.*;
@@ -34,33 +30,44 @@ import com.gtranslate.Language;
 
 public class BasicAnimalGame extends JPanel{
 
-	static boolean flag=true; // keeps track to take only one response per question
-	static int score;
+	boolean flag=true; // keeps track to take only one response per question
+	int score;
 	static JPanel panel1;
 	static JPanel panel2;
 	static int basicAnimalGameScore = 0;
 	static BufferedImage img;
 	static String username;
 	
-	public BasicAnimalGame(){
-		panel1 = this;
-		score = 0;
+	public BasicAnimalGame(String name){
+		username = name;
+		init();
 	}
 	
+	public BasicAnimalGame(){
+		//do nothing
+	}
 	
-	
-	public static void init(String name){
-		username = name;
-		panel1.setSize(990,750);
-	
-		//panel1.requestFocusInWindow();
-		
+	public void init(){
+		/*JFrame frame = new JFrame("Basic Animal Game");
+		//create the background panel that is the picture
+		BasicAnimalGame bg = new BasicAnimalGame();
+		JPanel panel2 = bg.new ContentPanel();
+		panel2.setOpaque(true);
+		panel2.setLayout(new BorderLayout());
+		frame.setContentPane(panel2); 
+		panel1 = new JPanel();
+		panel1.setOpaque(false);
+		//add panel1 to the background panel
+		panel2.add(panel1, BorderLayout.CENTER);
+		frame.setSize(990,750);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		*/
 		//introduce the game
 		Audio audio = Audio.getInstance();
 		InputStream sound1 = null;
 		InputStream sound2 = null;
 		try {
-			panel1.setFocusable(true);
 			sound1 = audio.getAudio("Time to play the Animal Game!", Language.ENGLISH);
 			sound2 = audio.getAudio("After the questions, press once for YES and twice for NO", Language.ENGLISH);
 		} catch (IOException e1) {
@@ -75,61 +82,38 @@ public class BasicAnimalGame extends JPanel{
 			e1.printStackTrace();
 		}
 		
-		int s1 = questionOne();
-		int s2 = questionTwo();
-		int s3 = questionThree();
-		int s4 = questionFour();
-		int s5 = questionFive();
-		
+		//need a better way to keep the score of the game because there are 5 instances of the class
+		//then there are 5 instances of the game score 
+		BasicAnimalGame q1 = new BasicAnimalGame();
+		BasicAnimalGame q2 = new BasicAnimalGame();
+		BasicAnimalGame q3 = new BasicAnimalGame();
+		BasicAnimalGame q4 = new BasicAnimalGame();
+		BasicAnimalGame q5 = new BasicAnimalGame();
+
+		int s1 = q1.questionOne();
+		int s2 = q2.questionTwo();
+		int s3 = q3.questionThree();
+		int s4 = q4.questionFour();
+		int s5 = q5.questionFive();
 		
 		basicAnimalGameScore = s1+s2+s3+s4+s5;
-		System.out.println("Score: " + basicAnimalGameScore);
-		updateDB(basicAnimalGameScore);
 		
-		
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-		        @Override
-		        public void run() {
-		            Platform.runLater(new Runnable() {
-		                @Override
-		                public void run() {
-		                	Welcome.showBasicLessonCounting();
-		                	BasicLessonNumber.play(username);
-		                	
-		                	}
-		            });
-
-		        }
-		    }, 5000);	
-
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+	    EntityManager entitymanager = emfactory.createEntityManager();
+	    
+	    //need to figure out how to get the name of the user
+	    Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
+    	query1.setParameter("score", basicAnimalGameScore);
+    	query1.setParameter("name", username);
 
 	}
-
-public static void updateDB(int finalScore){
 	
-	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
-    EntityManager entitymanager = emfactory.createEntityManager();
-    EntityTransaction transaction = entitymanager.getTransaction();
-    
-   //System.out.println("Username: " + username);
-    
-	transaction.begin();
-   Query query1 = entitymanager.createQuery("Update student_info s SET s.basicAnimalGameScore=:score WHERE s.name=:sname");
-	query1.setParameter("score", finalScore);
-	query1.setParameter("sname", username);
-	query1.executeUpdate();
-	transaction.commit();
-	
-}
 		
-public static int questionOne() {
+public int questionOne() {
 	score = 0;
 	flag=true;
 	Audio audio = Audio.getInstance();
 	InputStream sound = null;
-	
 	try {
 		sound = audio.getAudio("This animal goes meow meow meow... Is it a dog?", Language.ENGLISH);
 	} catch (IOException e1) {
@@ -143,8 +127,7 @@ public static int questionOne() {
 		e1.printStackTrace();
 	}
 	
-	MouseListener l1;
-	panel1.addMouseListener(l1 = new ClickListener()
+	panel1.addMouseListener(new ClickListener()
     {
 		Audio audio = Audio.getInstance();
     	InputStream sound = null;
@@ -195,7 +178,6 @@ public static int questionOne() {
 	//add some voice message to move to next question
 	try {
 		   Thread.sleep(5000);
-		   panel1.removeMouseListener(l1);
 	   
 		} catch (InterruptedException ie) {
 		}
@@ -203,7 +185,7 @@ public static int questionOne() {
 	return score;
 }
 
-public static int questionTwo() {
+public int questionTwo() {
 	score = 0; 
 	flag=true;
 	Audio audio = Audio.getInstance();
@@ -221,8 +203,8 @@ public static int questionTwo() {
 		e1.printStackTrace();
 	}
 	
-    MouseListener l2;
-	panel1.addMouseListener(l2 = new ClickListener()
+    
+	panel1.addMouseListener(new ClickListener()
     {
 		Audio audio = Audio.getInstance();
     	InputStream sound = null;
@@ -273,14 +255,13 @@ public static int questionTwo() {
 	//add some voice message to move to next question
 	try {
 		   Thread.sleep(5000);
-		   panel1.removeMouseListener(l2);
 	   
 		} catch (InterruptedException ie) {
 		}
 	return score;
 }
 
-public static int questionThree() {
+public int questionThree() {
 	score=0;
 	flag=true;
 	Audio audio = Audio.getInstance();
@@ -298,8 +279,8 @@ public static int questionThree() {
 		e1.printStackTrace();
 	}
 	
-    MouseListener l3;
-	panel1.addMouseListener(l3 = new ClickListener()
+    
+	panel1.addMouseListener(new ClickListener()
     {
 		Audio audio = Audio.getInstance();
     	InputStream sound = null;
@@ -350,7 +331,6 @@ public static int questionThree() {
 	//add some voice message to move to next question
 	try {
 		   Thread.sleep(5000);
-		   panel1.removeMouseListener(l3);
 	   
 		} catch (InterruptedException ie) {
 		}
@@ -359,7 +339,7 @@ public static int questionThree() {
 	
 }
 
-public static int questionFour() {
+public int questionFour() {
 	score=0;
 	flag=true;
 	Audio audio = Audio.getInstance();
@@ -377,8 +357,8 @@ public static int questionFour() {
 		e1.printStackTrace();
 	}
 	
-    MouseListener l4;
-	panel1.addMouseListener(l4 = new ClickListener()
+    
+	panel1.addMouseListener(new ClickListener()
     {
 		Audio audio = Audio.getInstance();
     	InputStream sound = null;
@@ -429,7 +409,6 @@ public static int questionFour() {
 	//add some voice message to move to next question
 	try {
 		   Thread.sleep(5000);
-		   panel1.removeMouseListener(l4);
 	   
 		} catch (InterruptedException ie) {
 		}
@@ -438,7 +417,7 @@ public static int questionFour() {
 	
 }
 
-public static int questionFive() {
+public int questionFive() {
 	score=0;
 	flag=true;
 	Audio audio = Audio.getInstance();
@@ -456,8 +435,8 @@ public static int questionFive() {
 		e1.printStackTrace();
 	}
 	
-    MouseListener l5;
-	panel1.addMouseListener(l5 = new ClickListener()
+    
+	panel1.addMouseListener(new ClickListener()
     {
 		Audio audio = Audio.getInstance();
     	InputStream sound = null;
@@ -508,7 +487,6 @@ public static int questionFive() {
 	//add some voice message to move to next question
 	try {
 		   Thread.sleep(5000);
-		   panel1.removeMouseListener(l5);
 	   
 		} catch (InterruptedException ie) {
 		}
@@ -523,7 +501,7 @@ public static class ClickListener extends MouseAdapter implements ActionListener
         getDesktopProperty("awt.multiClickInterval");
 
     MouseEvent lastEvent;
-    javax.swing.Timer timer;
+    Timer timer;
 
     public ClickListener()
     {
@@ -532,7 +510,7 @@ public static class ClickListener extends MouseAdapter implements ActionListener
 
     public ClickListener(int delay)
     {
-        timer = new javax.swing.Timer( delay, this);
+        timer = new Timer( delay, this);
     }
 
     public void mouseClicked (MouseEvent e)
@@ -562,7 +540,7 @@ public static class ClickListener extends MouseAdapter implements ActionListener
     public void doubleClick(MouseEvent e) {}
     
 }
-/*
+
 //Class to create a panel with a background image
 public class ContentPanel extends JPanel {
 	  Image bgimage = null;
@@ -584,5 +562,10 @@ public class ContentPanel extends JPanel {
 	    int imheight = bgimage.getHeight(null);
 	    g.drawImage(bgimage, 1, 1, null);
 	  }
-}*/
+}
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+	}
 }

@@ -7,6 +7,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -16,16 +18,21 @@ public class CheckProgress extends javax.swing.JPanel {
 
 	static String username;
 	// Variables declaration - do not modify                     
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea studentProgressTextArea;
+    private static javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JTextArea studentProgressTextArea;
+    static JPanel panel1;
     // End of variables declaration    
 	
     /**
      * Creates new form CheckProgress1
      */
     public CheckProgress(String name) {
-        initComponents();
-        displayData(name);
+        initComponents(name);
+        //displayData(name);
+    }
+    
+    public CheckProgress(){
+    	panel1 = this;
     }
 
     /**
@@ -35,7 +42,7 @@ public class CheckProgress extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {
+    public static void initComponents(String name) {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         studentProgressTextArea = new javax.swing.JTextArea();
@@ -45,8 +52,8 @@ public class CheckProgress extends javax.swing.JPanel {
         studentProgressTextArea.setRows(5);
         jScrollPane1.setViewportView(studentProgressTextArea);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -61,9 +68,11 @@ public class CheckProgress extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(57, Short.MAX_VALUE))
         );
+        
+        displayData(name);
     }// </editor-fold>                        
 
-    private void displayData(String name){
+    private static void displayData(String name){
     	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
 	    EntityManager entitymanager = emfactory.createEntityManager();
 	    
@@ -108,13 +117,12 @@ public class CheckProgress extends javax.swing.JPanel {
     		//do nothing
     	}
     	
-
     	Query query4 = entitymanager.createQuery("SELECT s.advLetterGameScore FROM student_info s WHERE s.name=:sname");
     	query4.setParameter("sname", username);
     	
     	try{
     		int result = (int) query4.getSingleResult();
-    		String advLetter = "Advanced Letters Game Score:   ";
+    		String advLetter = "Basic Letters Game Score:   ";
     		studentProgressTextArea.append(advLetter + result + newline);
     	}
     	catch(NoResultException e){
@@ -137,7 +145,19 @@ public class CheckProgress extends javax.swing.JPanel {
     }
     
     public static void main(String args[]) {
+    	JFrame frame = new JFrame("Check Progress");
+		//create the background panel that is the picture
     	CheckProgress p1 = new CheckProgress("Paige Rogalski");
+    	
+		frame.add(p1);
+		frame.setSize(990,750);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+    	
+    	
+    	
+    	
+    	//CheckProgress p1 = new CheckProgress("Paige Rogalski");
     }
                    
 }

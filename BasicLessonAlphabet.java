@@ -26,10 +26,10 @@ import javafx.stage.Stage;
 
 
 public class BasicLessonAlphabet extends JFXPanel {
-/*		JPanel cards;
-		CardLayout cl;
-		JFrame window;*/
+
 	static JFXPanel panel;
+	static String username;
+	
 public BasicLessonAlphabet() {
 	panel = this;
 
@@ -37,7 +37,9 @@ public BasicLessonAlphabet() {
 public static JFXPanel getPanel(){
 	return panel;
 }
-public static void play(){
+public static void play(String name){
+	username = name;
+	
 	Audio audio = Audio.getInstance();
 	try {
 		InputStream sound = null;
@@ -53,7 +55,7 @@ public static void play(){
 		e.printStackTrace();
 	}
 	
-final File f = new File("C:/Users/Rohith/Videos/Y.mp4");
+final File f = new File("C:/Users/proga_000/Videos/AForAppleSong.mp4");
 
 	Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
@@ -75,13 +77,13 @@ final File f = new File("C:/Users/Rohith/Videos/Y.mp4");
 	                @Override
 	                public void run() {
 	                	Welcome.showBasicGameAlphabet();
-	        			BasicGameAlphabet.play();
+	        			BasicGameAlphabet.play(username);
 
 	                }
 	            });
 
 	        }
-	    }, 9000);	
+	    }, 193000);	
 
 
 

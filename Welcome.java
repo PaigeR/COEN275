@@ -32,45 +32,48 @@ public class Welcome  extends JPanel{
 		cl.show(cards, "Basic Game Animal");
 	}
 	public static void showBasicLessonCounting(){
-		cl.show(cards, "Basic Lesson counting");
+		cl.show(cards, "Basic Lesson Counting");
 	}
 	public static void showBasicGameCounting(){
-		cl.show(cards, "Basic Game counting");
+		cl.show(cards, "Basic Game Counting");
 	}
 	public static void showAdvLessonAlphabet(){
 		cl.show(cards, "Advanced Lesson Alphabet");
 	}
-	public static void showAdvancedGameAlphabet(){
+	public static void showAdvGameAlphabet(){
 		cl.show(cards, "Advanced Game Alphabet");
 	}
 	public static void showAdvLessonCounting(){
 		cl.show(cards, "Advanced Lesson Counting");
 	}
 	public static void showAdvGameCounting(){
-		cl.show(cards,"Advanced Game counting");
+		cl.show(cards,"Advanced Game Counting");
 	}
-	
+	public static void showCheckProgress(){
+		cl.show(cards,"Check Progress");
+	}
 	public void init(){
 	
-	JFrame window = new JFrame("This is welcome");
+	JFrame window = new JFrame("Welcome");
 	cl = new CardLayout();
 	cards = new JPanel(cl);
 	cards.add(new HomePage(cards,cl, window),HOMEPAGE);	
+	cards.add(new CheckProgress(), "Check Progress");
     cards.add(new BasicLessonAlphabet(), "Basic Lesson Alphabet");
 	cards.add(new BasicGameAlphabet(), "Basic Game Alphabet");
 	cards.add(new BasicAnimalLesson(),"Basic Lesson Animal");
 	cards.add(new BasicAnimalGame(),"Basic Game Animal");
-	cards.add(new BasicLessonNumber(), "Basic Lesson counting");
-	//cards.add(new BasicLessonGameNumber)
+	cards.add(new BasicLessonNumber(), "Basic Lesson Counting");
+	cards.add(new BasicNumberGame(), "Basic Game Counting");
 	cards.add(new AdvLessonAlphabet(),"Advanced Lesson Alphabet");
-	cards.add(new AdvGameAlphabet(),"Advanced Game Alphabet");
+	cards.add(new AdvGameAlphabet(), "Advanced Game Alphabet");
 	cards.add(new AdvCountingLesson(),"Advanced Lesson Counting");
-	cards.add(new AdvCountingGame(),"Advanced Game counting");
-	
+	cards.add(new AdvCountingGame(),"Advanced Game Counting");
 	cl.show(cards, HOMEPAGE);
 	window.add(cards);
 	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	window.pack();
+	window.setSize(1300,750);
 	window.setVisible(true);
 	
     

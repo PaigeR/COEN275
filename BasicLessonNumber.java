@@ -26,10 +26,11 @@ import javafx.stage.Stage;
 
 
 public class BasicLessonNumber extends JFXPanel {
-/*		JPanel cards;
-		CardLayout cl;
-		JFrame window;*/
+	
 	static JFXPanel panel;
+	static String username;
+	
+	
 public BasicLessonNumber() {
 	panel = this;
 
@@ -37,12 +38,13 @@ public BasicLessonNumber() {
 public static JFXPanel getPanel(){
 	return panel;
 }
-public static void play(){
+public static void play(String name){
+	username = name;
 	Audio audio = Audio.getInstance();
 	try {
 		InputStream sound = null;
 		try {
-			sound = audio.getAudio("This is Basic Counting Lesson", Language.ENGLISH);
+			sound = audio.getAudio("This is Basic Number Lesson", Language.ENGLISH);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,7 +55,8 @@ public static void play(){
 		e.printStackTrace();
 	}
 	
-final File f = new File("C:/Users/Rohith/Videos/P.mp4");
+final File f = new File("C:/Users/proga_000/Videos/FiveLittleMonkeys.mp4");
+
 
 	Group root = new Group();
 	Scene scene = new Scene(root, 540, 210);
@@ -75,12 +78,12 @@ final File f = new File("C:/Users/Rohith/Videos/P.mp4");
 	                @Override
 	                public void run() {
 	                	Welcome.showBasicGameCounting();
-	                	BasicNumberGame.init();
+	                	BasicNumberGame.init(username);
 	                	}
 	            });
 
 	        }
-	    }, 9000);	
+	    }, 311000);	
 
 
 

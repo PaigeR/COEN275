@@ -15,10 +15,14 @@ import com.gtranslate.Language;
 
 class AdvLessonAlphabet extends JPanel {
 	static JPanel aPanel;
+	static String username;
+	
 	 public AdvLessonAlphabet() {
 		 aPanel = this;
 	 }
-	 public static void init(){
+	 
+	 public static void init(String name){
+		 username = name;
          /*JFrame frame = new JFrame();
          frame.getContentPane().add(aPanel);
 */			
@@ -34,7 +38,7 @@ class AdvLessonAlphabet extends JPanel {
 	        Audio audio = Audio.getInstance();
 			InputStream sound1 = null;
 			try {
-				sound1 = audio.getAudio("This is Advanced Alphabet Lesson. Press any keyboard to Learn the alphabet.", Language.ENGLISH);
+				sound1 = audio.getAudio("This is Advanced Alphabet Lesson. Press any key to Learn the alphabet.", Language.ENGLISH);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -85,14 +89,15 @@ class AdvLessonAlphabet extends JPanel {
 	            Platform.runLater(new Runnable() {
 	                @Override
 	                public void run() {
-	                	
-	                	Welcome.showAdvancedGameAlphabet();
-	                	AdvGameAlphabet.init();
+	                	//code to transition to Adv counting lesson
+	                	Welcome.showAdvGameAlphabet();
+	                	AdvGameAlphabet.init(username);
+	   
 	                	}
 	            });
 
 	        }
-	    }, 9000);	
+	    }, 10000);	
 
 }
 	    

@@ -10,6 +10,12 @@ import java.io.InputStream;
 import java.util.TimerTask;
 import java.util.Timer;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
@@ -31,10 +37,17 @@ public class BasicGameAlphabet extends JFXPanel{
 	static JFXPanel panel1;
 	static int response=0; // tracks the response for the question
 	private static int answer; // the original answer to the question
+	static String username;
+	static int score;
+	
 	public BasicGameAlphabet(){
 		panel1 = this;
+		score = 0;
 	}
-	public static void play() {
+	public static void play(String name) {
+		username = name;
+		panel1.setSize(990,750);
+	    panel1.setFocusable(true);
 	
 		Audio audio = Audio.getInstance();
 		try {
@@ -61,13 +74,13 @@ public class BasicGameAlphabet extends JFXPanel{
 			                @Override
 			                public void run() {
 			                	Welcome.showBasicLessonAnimal();
-			                	BasicAnimalLesson.play();
+			                	BasicAnimalLesson.play(username);
 			                	
 			                }
 			            });
 
 			        }
-			    }, 19000);	
+			    }, 10000);	
 
 
 		
@@ -91,7 +104,7 @@ public class BasicGameAlphabet extends JFXPanel{
 		Audio audio = Audio.getInstance();
     	InputStream sound1 = null;
     	try {
-			sound1 = audio.getAudio("Click once to Answer YES. Double Click to NO", Language.ENGLISH);
+			sound1 = audio.getAudio("Click once to Answer YES. Click twice to anser NO", Language.ENGLISH);
 			try {
 				audio.play(sound1);
 			} catch (JavaLayerException e) {
@@ -107,6 +120,7 @@ public class BasicGameAlphabet extends JFXPanel{
  * to the answer provided by the user
  */
 public static void selectAns(){
+	score=0;
 	InputStream sound = null;
 	InputStream sound1 = null;
 	Audio audio = Audio.getInstance();
@@ -117,6 +131,7 @@ public static void selectAns(){
 		try {
 		      
     		sound = audio.getAudio("Correct Answer", Language.ENGLISH);
+    		score++;
     		System.out.println("Correct Answer");
     	} catch (IOException e1) {
     		// TODO Auto-generated catch block
@@ -146,6 +161,24 @@ public static void selectAns(){
 	    	}
 			
 		}
+		
+		updateDB(score);
+	
+}
+
+public static void updateDB(int finalScore){
+	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("PersistenceUnit");
+    EntityManager entitymanager = emfactory.createEntityManager();
+    EntityTransaction transaction = entitymanager.getTransaction();
+    
+   //System.out.println("Username: " + username);
+    
+	transaction.begin();
+   Query query1 = entitymanager.createQuery("Update student_info s SET s.basicLetterGameScore=:score WHERE s.name=:sname");
+	query1.setParameter("score", finalScore);
+	query1.setParameter("sname", username);
+	query1.executeUpdate();
+	transaction.commit();
 	
 }
 /*This function retrieves the question and displays it on the Panel
@@ -155,7 +188,7 @@ public static void question5(int ans) {
 	flag=true;
 	answer = ans;
 	
-	String str= "C:/Users/Rohith/Videos/Z.mp4" ;
+	String str= "C:/Users/proga_000/Videos/Z.mp4" ;
 	
 	final File f = new File(str);
     
